@@ -6,6 +6,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  static final String title = 'Diary';
+
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: Navbar(),
+      home: NavBar(),
     );
   }
 }

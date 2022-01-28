@@ -34,6 +34,15 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  font_awesome_flutter: ^9.2.0
+  pdf: ^3.6.5
+  path_provider: ^2.0.8
+  open_document: ^1.0.4
+  # open pdf document
+  open_file: ^3.1.0
+
+  # format dates for invoice
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
