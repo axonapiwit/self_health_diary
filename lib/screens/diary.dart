@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:self_health_diary/components/foods_list.dart';
-import 'package:self_health_diary/components/moods_list.dart';
-import 'package:self_health_diary/components/notepad.dart';
-import 'package:self_health_diary/components/sleeps_list.dart';
-import 'package:self_health_diary/components/waters_list.dart';
+import 'package:self_health_diary/widgets/foods_list.dart';
+import 'package:self_health_diary/widgets/moods_list.dart';
+import 'package:self_health_diary/widgets/notepad.dart';
+import 'package:self_health_diary/widgets/sleeps_list.dart';
+import 'package:self_health_diary/widgets/waters_list.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class DiaryScreen extends StatefulWidget {

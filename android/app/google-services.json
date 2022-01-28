@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "437120761191",
+    "project_id": "self-heath-diary",
+    "storage_bucket": "self-heath-diary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437120761191:android:4df11129c82d791f01c3c2",
+        "android_client_info": {
+          "package_name": "com.example.self_health_diary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437120761191-cqm32accjidfu5h6d11pr95jmche28dd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9HJJhf4J8F4Lj7KuwDEwcwMLOMSzu7RU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437120761191-cqm32accjidfu5h6d11pr95jmche28dd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

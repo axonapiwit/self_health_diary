@@ -12,7 +12,7 @@ class PdfInvoiceApi {
   static Future<File> generate(Invoice invoice) async {
     final pdf = Document();
 
-    pdf.addPage(MultiPage(
+    pdf.addPage(MultiPage(                                                                                                    
       build: (context) => [
         buildHeader(invoice),
         SizedBox(height: 3 * PdfPageFormat.cm),

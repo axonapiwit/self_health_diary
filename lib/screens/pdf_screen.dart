@@ -6,8 +6,8 @@ import 'package:self_health_diary/main.dart';
 import 'package:self_health_diary/models/customer.dart';
 import 'package:self_health_diary/models/invoice.dart';
 import 'package:self_health_diary/models/supplier.dart';
-import 'package:self_health_diary/widget/button_widget.dart';
-import 'package:self_health_diary/widget/title_widget.dart';
+import 'package:self_health_diary/widgets/button_widget.dart';
+import 'package:self_health_diary/widgets/title_widget.dart';
 
 class PdfScreen extends StatefulWidget {
   @override
