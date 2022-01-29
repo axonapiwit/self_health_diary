@@ -49,7 +49,8 @@ dependencies:
 
   # format dates for invoice
   intl: ^0.17.0
-
+  table_calendar: ^3.0.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

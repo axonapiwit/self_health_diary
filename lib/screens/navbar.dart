@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:self_health_diary/screens/event.dart';
+import 'package:self_health_diary/screens/calendar.dart';
 import 'package:self_health_diary/screens/home.dart';
 import 'package:self_health_diary/screens/diary.dart';
 import 'package:self_health_diary/screens/more.dart';
@@ -18,7 +18,7 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> screens = [
     HomeScreen(),
     StatScreen(),
-    EventScreen(),
+    CalendarScreen(),
     MoreScreen(),
   ];
 
@@ -126,7 +126,7 @@ class _NavBarState extends State<NavBar> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = EventScreen();
+                        currentScreen = CalendarScreen();
                         currentTab = 3;
                       });
                     },
