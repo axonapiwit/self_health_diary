@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:self_health_diary/api/pdf_api.dart';
 import 'package:self_health_diary/api/pdf_invoice_api.dart';
 import 'package:self_health_diary/main.dart';
@@ -62,7 +62,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           time: DateTime.now(),
                           food: '3 Meals',
                           sleep: '7-8 Hrs',
-                          water: '5-6 Glasses',
+                          water: '0.5 Liter',
                           note: '',
                         ),
                         InvoiceItem(
@@ -71,7 +71,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           time: DateTime.now(),
                           food: '3 Meals',
                           sleep: '3-4 Hrs',
-                          water: '1-2 Glasses',
+                          water: '1 Liter',
                           note: '',
                         ),
                         InvoiceItem(
@@ -80,7 +80,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           time: DateTime.now(),
                           food: '3 Meals',
                           sleep: '7-8 Hrs',
-                          water: '5-6 Glasses',
+                          water: '2 Liter',
                           note: '',
                         ),
                         InvoiceItem(
@@ -89,7 +89,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           time: DateTime.now(),
                           food: '3 Meals',
                           sleep: '5-6 Hrs',
-                          water: '5-6 Glasses',
+                          water: '1.5 Liter',
                           note: '',
                         ),
                         InvoiceItem(
@@ -98,7 +98,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           time: DateTime.now(),
                           food: '3 Meals',
                           sleep: '7-8 Hrs',
-                          water: '2-3 Glasses',
+                          water: '1 Liter',
                           note: '',
                         ),
                         InvoiceItem(
@@ -107,7 +107,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           time: DateTime.now(),
                           food: '3 Meals',
                           sleep: '7-8 Hrs',
-                          water: '5-6 Glasses',
+                          water: '1 Liter',
                           note: '',
                         ),
                         InvoiceItem(
@@ -116,7 +116,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           time: DateTime.now(),
                           food: '2 Meals',
                           sleep: '7-8 Hrs',
-                          water: '1-2 Glasses',
+                          water: '0.5 Liter',
                           note: '',
                         ),
                       ],

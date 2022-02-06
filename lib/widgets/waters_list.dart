@@ -12,23 +12,23 @@ class WatersList extends StatefulWidget {
 class _SleepsListState extends State<WatersList> {
   var waters = [
     {
-      'imgName': 'assets/icons/water1.png',
-      'title': '7-8 Glasses',
+      'imgName': 'assets/icons/water-bottle.png',
+      'title': '2 Liter',
       'index': 0,
     },
     {
-      'imgName': 'assets/icons/water2.png',
-      'title': '5-6 Glasses',
+      'imgName': 'assets/icons/water-bottle1.png',
+      'title': '1.5 Liter',
       'index': 1,
     },
     {
-      'imgName': 'assets/icons/water3.png',
-      'title': '3-4 Glasses',
+      'imgName': 'assets/icons/water-bottle2.png',
+      'title': '1 Liter',
       'index': 2,
     },
     {
-      'imgName': 'assets/icons/water4.png',
-      'title': "1-2 Glasses",
+      'imgName': 'assets/icons/water1.png',
+      'title': "0.5 Liter",
       'index': 3,
     },
   ];

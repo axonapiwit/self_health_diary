@@ -2,43 +2,38 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
-class FoodsList extends StatefulWidget {
-  const FoodsList({Key? key}) : super(key: key);
+class ExerciseList extends StatefulWidget {
+  const ExerciseList({Key? key}) : super(key: key);
 
   @override
-  _FoodsListState createState() => _FoodsListState();
+  _ExerciseListState createState() => _ExerciseListState();
 }
 
-class _FoodsListState extends State<FoodsList> {
-  var foods = [
+class _ExerciseListState extends State<ExerciseList> {
+  var exercise = [
     {
-      'imgName': 'assets/icons/fish.png',
-      'title': '4 Meals',
+      'imgName': 'assets/icons/dumbbell.png',
+      'title': '60 Min',
       'index': 0,
     },
     {
-      'imgName': 'assets/icons/sandwich.png',
-      'title': '3 Meals',
+      'imgName': 'assets/icons/shoes.png',
+      'title': '30 Min',
       'index': 1,
     },
     {
-      'imgName': 'assets/icons/thai-food.png',
-      'title': '2 Meals',
+      'imgName': 'assets/icons/sneakers.png',
+      'title': '15 Min',
       'index': 2,
     },
     {
-      'imgName': 'assets/icons/noodles.png',
-      'title': '1 Meal',
+      'imgName': 'assets/icons/obesity.png',
+      'title': "No Exercise",
       'index': 3,
-    },
-    {
-      'imgName': 'assets/icons/nofood.png',
-      'title': "Didn't Eat",
-      'index': 4,
     },
   ];
 
-  int? isFood = null;
+  int? isExercise = null;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +42,7 @@ class _FoodsListState extends State<FoodsList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Food',
+            'Exercise',
             style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
           ),
@@ -60,11 +55,11 @@ class _FoodsListState extends State<FoodsList> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              children: foods
+              children: exercise
                   .map<Widget>((m) => GestureDetector(
                         onTap: () {
                           setState(() {
-                            isFood = m["index"] as int;
+                            isExercise = m["index"] as int;
                           });
 
                           developer.log(m["index"].toString());
@@ -93,7 +88,7 @@ class _FoodsListState extends State<FoodsList> {
                                         '${m["title"]}',
                                         style: TextStyle(
                                             color:
-                                                (isFood == m["index"] as int)
+                                                (isExercise == m["index"] as int)
                                                     ? Colors.white
                                                     : Colors.black,
                                             fontSize: 15.0,
@@ -101,7 +96,7 @@ class _FoodsListState extends State<FoodsList> {
                                       ),
                                     ],
                                   )),
-                                  decoration: (isFood == m["index"] as int)
+                                  decoration: (isExercise == m["index"] as int)
                                       ? BoxDecoration(
                                           color: Color(0xFF56C956),
                                           borderRadius: BorderRadius.all(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:self_health_diary/screens/home.dart';
+import 'package:self_health_diary/widgets/exercise_list.dart';
 import 'package:self_health_diary/widgets/foods_list.dart';
 import 'package:self_health_diary/widgets/moods_list.dart';
 import 'package:self_health_diary/widgets/notepad.dart';
@@ -47,11 +49,36 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   SizedBox(
                     height: 20,
                   ),
+                  ExerciseList(),
+                  SizedBox(
+                    height: 20,
+                  ),
                   NotePad(),
                   SizedBox(
                     height: 20,
                   ),
-                  
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Palette.primary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextButton(
+                      child: Text(
+                        'Save',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  )
                 ],
               ),
             ),
