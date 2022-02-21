@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/models/diary.dart';
-import 'package:self_health_diary/screens/home.dart';
 import 'package:self_health_diary/widgets/exercise_list.dart';
 import 'package:self_health_diary/widgets/foods_list.dart';
 import 'package:self_health_diary/widgets/moods_list.dart';
@@ -12,7 +10,17 @@ import 'package:self_health_diary/widgets/waters_list.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class DetailDiary extends StatefulWidget {
-  const DetailDiary({Key? key}) : super(key: key);
+  const DetailDiary(
+      {Key? key,
+      String,
+      required this.mood,
+      required this.sleep,
+      required this.id})
+      : super(key: key);
+
+  final String mood;
+  final String sleep;
+  final String id;
 
   @override
   _DetailDiaryState createState() => _DetailDiaryState();
@@ -23,35 +31,28 @@ class _DetailDiaryState extends State<DetailDiary> {
 
   @override
   initState() {
-    getDiary();
     super.initState();
-  }
-
-  getDiary() async {
-    final res = await FirebaseFirestore.instance.collection('diaries').doc().get();
-    
+    diary.mood = widget.mood;
+    diary.sleep = widget.sleep;
+    // print(diary.mood);
   }
 
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
     Future editDiary() async {
+      print(widget.id);
       await FirebaseFirestore.instance
           .collection('diaries')
-          .doc(user!.uid)
+          .doc(widget.id)
           .update({
         'mood': diary.mood,
         'sleep': diary.sleep,
         'food': diary.food,
         'water': diary.water,
         'exercise': diary.exercise,
-        'dateTime': diary.dateTime,
-        // 'status': true,
+        'status': true,
         'moodPoint': diary.moodPoint,
-      }).then((value) => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              ));
+      }).then((value) => {Navigator.pop(context), Navigator.pop(context)});
     }
 
     return GestureDetector(
@@ -69,24 +70,28 @@ class _DetailDiaryState extends State<DetailDiary> {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
-                  MoodsList(onChange: (title, index) {
-                    setState(() {
-                      diary.mood = title;
-                      diary.moodPoint = index;
-                    });
-                    print(title);
-                    print(index);
-                  }),
+                  MoodsList(
+                      onChange: (title, index) {
+                        setState(() {
+                          diary.mood = title;
+                          diary.moodPoint = index;
+                        });
+                        print(title);
+                        print(index);
+                      },
+                      moodSelected: diary.mood),
                   SizedBox(
                     height: 20,
                   ),
-                  SleepsList(onChange: (title, index) {
-                    setState(() {
-                      diary.sleep = title;
-                    });
-                    print(title);
-                    print(index);
-                  }),
+                  SleepsList(
+                      onChange: (title, index) {
+                        setState(() {
+                          diary.sleep = title;
+                        });
+                        print(title);
+                        print(index);
+                      },
+                      sleepSelected: diary.sleep),
                   SizedBox(
                     height: 20,
                   ),
@@ -138,15 +143,6 @@ class _DetailDiaryState extends State<DetailDiary> {
                       ),
                       onPressed: () {
                         editDiary();
-                        setState(() {
-                          diary.dateTime;
-                        });
-                        Navigator.pop(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
-                          ),
-                        );
                       },
                     ),
                   )

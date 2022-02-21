@@ -36,24 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
-  List<Diary> diary = [];
-
-  @override
-  initState() {
-    getDiary();
-    super.initState();
-  }
-
-  getDiary() async {
-    final res = await FirebaseFirestore.instance.collection('diaries').get();
-    res.docs.forEach((element) {
-      setState(() {
-        diary.add(Diary.fromJson(element.data()));
-      });
-    });
-    diary.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-  }
-
   final weekday = [
     "Monday",
     "Tuesday",
@@ -96,226 +78,267 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Palette.tertiary,
-        body: ListView(
-          padding: EdgeInsets.all(15),
-          children: <Widget>[
-            for (int i = 0; i < diary.length; i++)
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Palette.secondary[200],
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                              '${(diary[i].dateTime.day)} ${getWeekday(diary[i].dateTime.weekday)} ${getMonth(diary[i].dateTime.month)}',
-                              style: TextStyle(fontSize: 20)),
-                          InkWell(
-                            child: FaIcon(FontAwesomeIcons.ellipsisH),
-                            onTap: () {
-                              showModalBottomSheet<void>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    height: 200,
-                                    color: Palette.secondary,
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Text('${diary[i].mood}',
-                                              style: TextStyle(fontSize: 24)),
-                                          TextButton(
-                                              child: Row(
+        body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('diaries')
+              .orderBy('dateTime',descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow)),
+              );
+            }
+            return ListView.builder(
+                padding: EdgeInsets.all(15),
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  final json = snapshot.data!.docs[index];
+                  final diary =
+                      Diary.fromJson(json.data() as Map<String, dynamic>);
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Palette.secondary[200],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      '${(diary.dateTime.day)} ${getWeekday(diary.dateTime.weekday)} ${getMonth(diary.dateTime.month)}',
+                                      style: TextStyle(fontSize: 20)),
+                                  InkWell(
+                                    child: FaIcon(FontAwesomeIcons.ellipsisH),
+                                    onTap: () {
+                                      showModalBottomSheet<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            height: 200,
+                                            color: Palette.secondary,
+                                            child: Center(
+                                              child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  FaIcon(FontAwesomeIcons.book,
-                                                      color: Palette
-                                                          .secondary[300]),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    'Edit Diary',
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 24),
+                                                    MainAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  Text('${diary.mood}',
+                                                      style: TextStyle(
+                                                          fontSize: 24)),
+                                                  TextButton(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .book,
+                                                              color: Palette
+                                                                      .secondary[
+                                                                  300]),
+                                                          SizedBox(width: 10),
+                                                          Text(
+                                                            'Edit Diary',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 24),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                DetailDiary(
+                                                                    mood: diary
+                                                                        .mood,
+                                                                    sleep: diary
+                                                                        .sleep,
+                                                                    id: diary
+                                                                        .id),
+                                                          ),
+                                                        );
+                                                      }),
+                                                  TextButton(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        FaIcon(
+                                                            FontAwesomeIcons
+                                                                .timesCircle,
+                                                            color: Colors.red),
+                                                        SizedBox(width: 10),
+                                                        Text(
+                                                          'Close',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 24),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
                                                   ),
                                                 ],
                                               ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetailDiary(),
-                                                  ),
-                                                );
-                                              }),
-                                          TextButton(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                FaIcon(
-                                                    FontAwesomeIcons
-                                                        .timesCircle,
-                                                    color: Colors.red),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  'Close',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 24),
-                                                ),
-                                              ],
                                             ),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
-                                        ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Image.asset(
+                                        '${moods.where((item) {
+                                          return item["title"] == diary.mood;
+                                        }).toList()[0]["imgName"]}',
+                                        height: 60,
+                                      ),
+                                    ],
+                                  ),
+                                  Text('${diary.mood}',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                  Text(
+                                      '${diary.dateTime.hour}:${checkZero(diary.dateTime.minute)}',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      )),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text('99', style: TextStyle(fontSize: 39)),
+                                  Text('Score', style: TextStyle(fontSize: 29)),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.bed,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text('• ${diary.sleep}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          )),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.utensils,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text('• ${diary.food}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          )),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.water,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text('• ${diary.water}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          )),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.dumbbell,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text('• ${diary.exercise}',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          )),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.book,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Flexible(
+                                    child: Container(
+                                      child: Text(
+                                        "• Today's exam was very tiring but I was able to pass it.",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              Image.asset(
-                                '${moods.where((item) {
-                                  return item["title"] == diary[i].mood;
-                                }).toList()[0]["imgName"]}',
-                                height: 60,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          Text('${diary[i].mood}',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
-                          Text(
-                              '${diary[i].dateTime.hour}:${checkZero(diary[i].dateTime.minute)}',
-                              style: TextStyle(
-                                fontSize: 18,
-                              )),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text('99', style: TextStyle(fontSize: 39)),
-                          Text('Score', style: TextStyle(fontSize: 29)),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(
-                                FontAwesomeIcons.bed,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text('• ${diary[i].sleep}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  )),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                FontAwesomeIcons.utensils,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text('• ${diary[i].food}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  )),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                FontAwesomeIcons.water,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text('• ${diary[i].water}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  )),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                FontAwesomeIcons.dumbbell,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 10),
-                              Text('• ${diary[i].exercise}',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  )),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.book,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 10),
-                          Flexible(
-                            child: Container(
-                              child: Text(
-                                "• Today's exam was very tiring but I was able to pass it.",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-          ],
+                  );
+                });
+          },
         ),
       ),
     );

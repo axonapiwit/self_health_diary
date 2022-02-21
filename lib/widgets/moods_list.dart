@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class MoodsList extends StatefulWidget {
-  const MoodsList({Key? key, required this.onChange}) : super(key: key);
+  const MoodsList({Key? key, required this.onChange, this.moodSelected = ''})
+      : super(key: key);
 
   final void Function(String, int) onChange;
+  final String moodSelected;
 
   @override
   _MoodsListState createState() => _MoodsListState();
@@ -24,8 +26,8 @@ class _MoodsListState extends State<MoodsList> {
       'index': 4,
     },
     {
-      'imgName': 'assets/icons/meduim.png',
-      'title': 'Meduim',
+      'imgName': 'assets/icons/medium.png',
+      'title': 'Medium',
       'index': 3,
     },
     {
@@ -39,6 +41,20 @@ class _MoodsListState extends State<MoodsList> {
       'index': 1,
     },
   ];
+
+  @override
+  initState() {
+    getMood();
+    super.initState();
+  }
+
+  getMood() {
+    for (var i = 0; i < moods.length; i++) {
+      if (widget.moodSelected == moods[i]['title']) {
+        isMood = moods[i]['index'] as int;
+      }
+    }
+  }
 
   int? isMood = null;
 

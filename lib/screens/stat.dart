@@ -144,7 +144,7 @@ class _StatScreenState extends State<StatScreen> {
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 4),
                             child: Image.asset(
-                              'assets/icons/meduim.png',
+                              'assets/icons/medium.png',
                               width: 30,
                             ),
                           ),

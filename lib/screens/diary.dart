@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/models/diary.dart';
-import 'package:self_health_diary/screens/home.dart';
 import 'package:self_health_diary/widgets/exercise_list.dart';
 import 'package:self_health_diary/widgets/foods_list.dart';
 import 'package:self_health_diary/widgets/moods_list.dart';
@@ -25,17 +24,46 @@ class _DiaryScreenState extends State<DiaryScreen> {
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     Future addDiary() async {
-      await FirebaseFirestore.instance.collection('diaries').add({
-        'createdBy': user!.uid,
-        'mood': diary.mood,
-        'sleep': diary.sleep,
-        'food': diary.food,
-        'water': diary.water,
-        'exercise': diary.exercise,
-        'dateTime': diary.dateTime,
-        'status': true,
-        'moodPoint': diary.moodPoint,
-      });
+      print('object');
+      // await FirebaseFirestore.instance
+      //     .collection('diaries')
+      //     .where('dateTime',
+      //         isLessThan: new DateTime.now().subtract(Duration(days: 1)))
+      //     .get()
+      //     .then((value) => {print(value.docs.length)});
+      await FirebaseFirestore.instance
+          .collection('diaries')
+          .orderBy('dateTime')
+          .get()
+          .then((value) => {
+                print(value.docs.last.data()['dateTime'].toDate()),
+                print(new DateTime.now().subtract(Duration(days: 1))),
+                if (value.docs.last
+                    .data()['dateTime']
+                    .toDate()
+                    .isBefore(new DateTime.now().subtract(Duration(days: 1))))
+                  {
+                    print('yes'),
+                    FirebaseFirestore.instance.collection('diaries').add({
+                      'createdBy': user!.uid,
+                      'mood': diary.mood,
+                      'sleep': diary.sleep,
+                      'food': diary.food,
+                      'water': diary.water,
+                      'exercise': diary.exercise,
+                      'dateTime': diary.dateTime,
+                      'status': true,
+                      'moodPoint': diary.moodPoint,
+                    }).then((value) => FirebaseFirestore.instance
+                            .collection('diaries')
+                            .doc(value.id)
+                            .update({
+                          'id': value.id,
+                        }).then((value) => Navigator.pop(context)))
+                  }
+                else
+                  print('no')
+              });
     }
 
     return GestureDetector(
@@ -121,16 +149,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        addDiary();
                         setState(() {
                           diary.dateTime;
                         });
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
-                          ),
-                        );
+                        addDiary();
                       },
                     ),
                   )

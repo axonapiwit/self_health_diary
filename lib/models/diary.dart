@@ -1,4 +1,5 @@
 class Diary {
+  late String id;
   late String mood;
   late String sleep;
   late String food;
@@ -6,9 +7,11 @@ class Diary {
   late String exercise;
   late String? note;
   late int moodPoint;
-  final dynamic dateTime;
+  late dynamic dateTime;
+  late bool status;
 
   Diary({
+    this.id = '',
     this.mood = '',
     this.sleep = '',
     this.food = '',
@@ -17,19 +20,22 @@ class Diary {
     this.note = '',
     this.moodPoint = 0,
     this.dateTime,
+    this.status = true,
   });
 
   factory Diary.fromJson(Map<String, dynamic> json) {
-    print(json['dateTime'].toDate());
+    // print(json['dateTime'].toDate());
     return Diary(
-      mood: json['mood'],
-      sleep: json['sleep'],
-      food: json['food'],
-      water: json['water'],
-      exercise: json['exercise'],
-      note: json['note'],
-      moodPoint: json['moodPoint'],
+      id: json['id'] ?? '',
+      mood: json['mood'] ?? '',
+      sleep: json['sleep'] ?? '',
+      food: json['food'] ?? '',
+      water: json['water'] ?? '',
+      exercise: json['exercise'] ?? '',
+      note: json['note'] ?? '',
+      moodPoint: json['moodPoint'] ?? 0,
       dateTime: json['dateTime'].toDate(),
+      status: json['status'] ?? true,
     );
   }
 }

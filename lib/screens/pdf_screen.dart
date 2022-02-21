@@ -84,7 +84,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           note: '',
                         ),
                         InvoiceItem(
-                          description: 'Meduim',
+                          description: 'Medium',
                           date: DateTime.now(),
                           time: DateTime.now(),
                           food: '3 Meals',
@@ -111,7 +111,7 @@ class _PdfScreenState extends State<PdfScreen> {
                           note: '',
                         ),
                         InvoiceItem(
-                          description: 'Meduim',
+                          description: 'Medium',
                           date: DateTime.now(),
                           time: DateTime.now(),
                           food: '2 Meals',
