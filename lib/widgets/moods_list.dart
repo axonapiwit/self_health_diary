@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class MoodsList extends StatefulWidget {
-  const MoodsList({Key? key}) : super(key: key);
+  const MoodsList({Key? key, required this.onChange}) : super(key: key);
+
+  final void Function(String, int) onChange;
 
   @override
   _MoodsListState createState() => _MoodsListState();
@@ -14,27 +16,27 @@ class _MoodsListState extends State<MoodsList> {
     {
       'imgName': 'assets/icons/excellence.png',
       'title': 'Excellence',
-      'index': 0,
+      'index': 5,
     },
     {
       'imgName': 'assets/icons/good.png',
       'title': 'Good',
-      'index': 1,
+      'index': 4,
     },
     {
       'imgName': 'assets/icons/meduim.png',
       'title': 'Meduim',
-      'index': 2,
+      'index': 3,
     },
     {
       'imgName': 'assets/icons/badly.png',
       'title': 'Badly',
-      'index': 3,
+      'index': 2,
     },
     {
       'imgName': 'assets/icons/verybad.png',
       'title': 'Very Bad',
-      'index': 4,
+      'index': 1,
     },
   ];
 
@@ -63,6 +65,8 @@ class _MoodsListState extends State<MoodsList> {
               children: moods
                   .map<Widget>((m) => GestureDetector(
                         onTap: () {
+                          widget.onChange(
+                              m["title"] as String, m["index"] as int);
                           setState(() {
                             isMood = m["index"] as int;
                           });

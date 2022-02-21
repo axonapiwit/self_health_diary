@@ -67,6 +67,8 @@ class AuthenticationService {
             .set({
           'uid': authResult.user!.uid,
           'role': 'new',
+          'fname': authResult.user!.displayName,
+          
         });
       }
     } catch (e) {

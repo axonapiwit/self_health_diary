@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:self_health_diary/screens/calendar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:self_health_diary/screens/stat.dart';
 import 'package:self_health_diary/screens/home.dart';
 import 'package:self_health_diary/screens/diary.dart';
 import 'package:self_health_diary/screens/more.dart';
-import 'package:self_health_diary/screens/stat.dart';
+import 'package:self_health_diary/screens/profile.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class NavBar extends StatefulWidget {
@@ -18,7 +19,7 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> screens = [
     HomeScreen(),
     StatScreen(),
-    CalendarScreen(),
+    ProfileScreen(),
     MoreScreen(),
   ];
 
@@ -67,9 +68,9 @@ class _NavBarState extends State<NavBar> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.home,
-                          size: 35,
+                        FaIcon(
+                          FontAwesomeIcons.home,
+                          size: 30,
                           color: currentTab == 0
                               ? Palette.primary
                               : Colors.grey.shade600,
@@ -99,15 +100,15 @@ class _NavBarState extends State<NavBar> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.equalizer_outlined,
-                          size: 35,
+                        FaIcon(
+                          FontAwesomeIcons.chartPie,
+                          size: 30,
                           color: currentTab == 1
                               ? Palette.primary
                               : Colors.grey.shade600,
                         ),
                         Text(
-                          'Stat',
+                          'Stats',
                           style: TextStyle(
                             color: currentTab == 1
                                 ? Palette.primary
@@ -126,22 +127,22 @@ class _NavBarState extends State<NavBar> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = CalendarScreen();
+                        currentScreen = ProfileScreen();
                         currentTab = 3;
                       });
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.event_outlined,
-                          size: 35,
+                        FaIcon(
+                          FontAwesomeIcons.userAlt,
+                          size: 30,
                           color: currentTab == 3
                               ? Palette.primary
                               : Colors.grey.shade600,
                         ),
                         Text(
-                          'Event',
+                          'Profile',
                           style: TextStyle(
                             color: currentTab == 3
                                 ? Palette.primary
@@ -165,9 +166,9 @@ class _NavBarState extends State<NavBar> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.settings,
-                          size: 35,
+                        FaIcon(
+                          FontAwesomeIcons.bars,
+                          size: 30,
                           color: currentTab == 4
                               ? Palette.primary
                               : Colors.grey.shade600,

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class SleepsList extends StatefulWidget {
-  const SleepsList({Key? key}) : super(key: key);
+  const SleepsList({Key? key, required this.onChange}) : super(key: key);
+
+  final void Function(String, int) onChange;
 
   @override
   _SleepsListState createState() => _SleepsListState();
@@ -56,13 +58,15 @@ class _SleepsListState extends State<SleepsList> {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: sleeps
-                  .map<Widget>((m) => GestureDetector(
+                  .map<Widget>((s) => GestureDetector(
                         onTap: () {
+                          widget.onChange(
+                              s["title"] as String, s["index"] as int);
                           setState(() {
-                            isSleep = m["index"] as int;
+                            isSleep = s["index"] as int;
                           });
 
-                          developer.log(m["index"].toString());
+                          developer.log(s["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -81,14 +85,14 @@ class _SleepsListState extends State<SleepsList> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        '${m["imgName"]}',
+                                        '${s["imgName"]}',
                                         height: 60,
                                       ),
                                       Text(
-                                        '${m["title"]}',
+                                        '${s["title"]}',
                                         style: TextStyle(
                                             color:
-                                                (isSleep == m["index"] as int)
+                                                (isSleep == s["index"] as int)
                                                     ? Colors.white
                                                     : Colors.black,
                                             fontSize: 15.0,
@@ -96,7 +100,7 @@ class _SleepsListState extends State<SleepsList> {
                                       ),
                                     ],
                                   )),
-                                  decoration: (isSleep == m["index"] as int)
+                                  decoration: (isSleep == s["index"] as int)
                                       ? BoxDecoration(
                                           color: Color(0xFF56C956),
                                           borderRadius: BorderRadius.all(

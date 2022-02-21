@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class FoodsList extends StatefulWidget {
-  const FoodsList({Key? key}) : super(key: key);
+  const FoodsList({Key? key, required this.onChange}) : super(key: key);
+
+  final void Function(String, int) onChange;
 
   @override
   _FoodsListState createState() => _FoodsListState();
@@ -61,13 +63,15 @@ class _FoodsListState extends State<FoodsList> {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: foods
-                  .map<Widget>((m) => GestureDetector(
+                  .map<Widget>((f) => GestureDetector(
                         onTap: () {
                           setState(() {
-                            isFood = m["index"] as int;
+                            widget.onChange(
+                                f["title"] as String, f["index"] as int);
+                            isFood = f["index"] as int;
                           });
 
-                          developer.log(m["index"].toString());
+                          developer.log(f["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -86,22 +90,21 @@ class _FoodsListState extends State<FoodsList> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        '${m["imgName"]}',
+                                        '${f["imgName"]}',
                                         height: 60,
                                       ),
                                       Text(
-                                        '${m["title"]}',
+                                        '${f["title"]}',
                                         style: TextStyle(
-                                            color:
-                                                (isFood == m["index"] as int)
-                                                    ? Colors.white
-                                                    : Colors.black,
+                                            color: (isFood == f["index"] as int)
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   )),
-                                  decoration: (isFood == m["index"] as int)
+                                  decoration: (isFood == f["index"] as int)
                                       ? BoxDecoration(
                                           color: Color(0xFF56C956),
                                           borderRadius: BorderRadius.all(

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class WatersList extends StatefulWidget {
-  const WatersList({Key? key}) : super(key: key);
+  const WatersList({Key? key, required this.onChange}) : super(key: key);
+
+  final void Function(String, int) onChange;
 
   @override
   _SleepsListState createState() => _SleepsListState();
@@ -56,13 +58,15 @@ class _SleepsListState extends State<WatersList> {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: waters
-                  .map<Widget>((m) => GestureDetector(
+                  .map<Widget>((w) => GestureDetector(
                         onTap: () {
+                          widget.onChange(
+                              w["title"] as String, w["index"] as int);
                           setState(() {
-                            isWater = m["index"] as int;
+                            isWater = w["index"] as int;
                           });
 
-                          developer.log(m["index"].toString());
+                          developer.log(w["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -81,14 +85,14 @@ class _SleepsListState extends State<WatersList> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        '${m["imgName"]}',
+                                        '${w["imgName"]}',
                                         height: 60,
                                       ),
                                       Text(
-                                        '${m["title"]}',
+                                        '${w["title"]}',
                                         style: TextStyle(
                                             color:
-                                                (isWater == m["index"] as int)
+                                                (isWater == w["index"] as int)
                                                     ? Colors.white
                                                     : Colors.black,
                                             fontSize: 15.0,
@@ -96,7 +100,7 @@ class _SleepsListState extends State<WatersList> {
                                       ),
                                     ],
                                   )),
-                                  decoration: (isWater == m["index"] as int)
+                                  decoration: (isWater == w["index"] as int)
                                       ? BoxDecoration(
                                           color: Color(0xFF56C956),
                                           borderRadius: BorderRadius.all(

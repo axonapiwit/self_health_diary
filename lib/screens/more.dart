@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/src/provider.dart';
 import 'package:self_health_diary/screens/pdf_screen.dart';
+import 'package:self_health_diary/services/authentication_service.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -69,6 +71,13 @@ class _MoreScreenState extends State<MoreScreen> {
                 leading: FaIcon(FontAwesomeIcons.infoCircle),
                 title: Text('About'),
                 onTap: () {},
+              ),
+              ListTile(
+                leading: FaIcon(FontAwesomeIcons.signOutAlt),
+                title: Text('Sign Out'),
+                onTap: () {
+                  context.read<AuthenticationService>().signOutWithGoogle();
+                },
               ),
             ],
           )),

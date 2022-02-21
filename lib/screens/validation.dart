@@ -5,7 +5,8 @@ import 'package:provider/src/provider.dart';
 import 'package:self_health_diary/models/profile.dart';
 import 'package:self_health_diary/screens/navbar.dart';
 import 'package:self_health_diary/services/authentication_service.dart';
-import 'package:self_health_diary/widgets/icon_text_input.dart';
+import 'package:self_health_diary/themes/colors.dart';
+import 'package:self_health_diary/widgets/radio.dart';
 
 class ValidationScreen extends StatefulWidget {
   const ValidationScreen({Key? key}) : super(key: key);
@@ -21,8 +22,8 @@ class _ValidationScreenState extends State<ValidationScreen> {
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     String role = 'user';
-    final TextEditingController firstNameController = TextEditingController();
-    final TextEditingController lastNameController = TextEditingController();
+    // final TextEditingController firstNameController = TextEditingController();
+    // final TextEditingController lastNameController = TextEditingController();
 
     Future addUser() async {
       await FirebaseFirestore.instance
@@ -30,12 +31,13 @@ class _ValidationScreenState extends State<ValidationScreen> {
           .doc(user!.uid)
           .update({
         'role': role,
-        // 'tag': Random().nextInt(9999).toString(),
         // 'fname': firstNameController.text,
         // 'lname': lastNameController.text,
         'fname': validateUser.fname,
         'lname': validateUser.lname,
-        // 'img': urlDownload,
+        'height': validateUser.height,
+        'weight': validateUser.weight,
+        'gender': validateUser.gender,
       }).then((value) => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => NavBar()),
@@ -43,13 +45,18 @@ class _ValidationScreenState extends State<ValidationScreen> {
     }
 
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
       child: Scaffold(
+        backgroundColor: Palette.tertiary,
         body: SingleChildScrollView(
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.grey[850],
+            color: Palette.tertiary,
             child: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +80,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                               ),
                               child: Icon(
                                 Icons.keyboard_backspace,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -89,56 +96,139 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                 style: TextStyle(
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                    color: Colors.black),
                               ),
                               SizedBox(height: 10),
                               Text(
                                 'PLease fill the input blow here.',
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
+                                    fontSize: 16, color: Colors.black),
                               ),
-                              SizedBox(height: 30),
-                              IconTextInput(
-                                  controller: firstNameController,
-                                  hint: 'First Name',
-                                  icon: 'person',
-                                  obscureText: false),
                               SizedBox(height: 10),
-                              IconTextInput(
-                                  controller: lastNameController,
-                                  hint: 'Last Name',
-                                  icon: 'person',
-                                  obscureText: false),
-                              SizedBox(height: 30),
+                              // IconTextInput(
+                              //     controller: firstNameController,
+                              //     hint: 'First Name',
+                              //     icon: 'person',
+                              //     obscureText: false),
+                              // SizedBox(height: 10),
+                              // IconTextInput(
+                              //     controller: lastNameController,
+                              //     hint: 'Last Name',
+                              //     icon: 'person',
+                              //     obscureText: false),
+                              // SizedBox(height: 30),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.8,
                                 margin: EdgeInsets.symmetric(vertical: 20),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 decoration: BoxDecoration(
-                                    color: Colors.pink.shade300,
+                                    color: Palette.secondary,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(29))),
                                 child: TextField(
                                   decoration: InputDecoration(
                                       icon: Icon(Icons.rtt_rounded,
-                                          color: Colors.white),
+                                          color: Colors.black),
                                       hintText: "Your First Name",
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintStyle: TextStyle(color: Colors.black),
                                       border: InputBorder.none),
-                                  onSubmitted: (String fname) {
+                                  onChanged: (String fname) {
                                     validateUser.fname = fname;
                                   },
                                 ),
                               ),
+                              SizedBox(height: 10),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                margin: EdgeInsets.symmetric(vertical: 20),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                decoration: BoxDecoration(
+                                    color: Palette.secondary,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(29))),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      icon: Icon(Icons.rtt_rounded,
+                                          color: Colors.black),
+                                      hintText: "Your Last Name",
+                                      hintStyle: TextStyle(color: Colors.black),
+                                      border: InputBorder.none),
+                                  onChanged: (String lname) {
+                                    validateUser.lname = lname;
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    margin: EdgeInsets.symmetric(vertical: 20),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: Palette.secondary,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(29))),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          icon: Icon(Icons.rtt_rounded,
+                                              color: Colors.black),
+                                          hintText: "Height",
+                                          hintStyle:
+                                              TextStyle(color: Colors.black),
+                                          border: InputBorder.none),
+                                      onChanged: (String height) {
+                                        validateUser.height = int.parse(height);
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    margin: EdgeInsets.symmetric(vertical: 20),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        color: Palette.secondary,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(29))),
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          icon: Icon(Icons.rtt_rounded,
+                                              color: Colors.black),
+                                          hintText: "Weight",
+                                          hintStyle:
+                                              TextStyle(color: Colors.black),
+                                          border: InputBorder.none),
+                                      onChanged: (String weight) {
+                                        validateUser.weight = int.parse(weight);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              RadioGroup(
+                                options: [
+                                  RadioOption(label: 'Male', value: 'Male'),
+                                  RadioOption(label: 'Female', value: 'Female'),
+                                ],
+                                onChange: (value) {
+                                  print(value);
+                                  setState(() {
+                                    validateUser.gender = value;
+                                  });
+                                },
+                                // selected: 0,
+                              ),
                             ],
                           ),
                         ),
-                        ElevatedButton(
-                            child: Text('Submit'),
-                            onPressed: () {
-                              addUser();
-                            }),
                       ],
                     ),
                   ),
@@ -171,91 +261,38 @@ class _ValidationScreenState extends State<ValidationScreen> {
             ),
           ),
         ),
+        bottomNavigationBar: Stack(
+          alignment: FractionalOffset(.5, 1.0),
+          children: [
+            InkWell(
+              child: Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade100,
+                    boxShadow: [
+                      BoxShadow(color: Colors.white, spreadRadius: 2)
+                    ]),
+                child: Center(
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                        color: Colors.pink.shade300,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              onTap: () {
+                addUser();
+                print(validateUser.fname);
+                print(validateUser.height);
+                print(validateUser.weight);
+              },
+            ),
+          ],
+        ),
       ),
     );
-
-    //   return Scaffold(
-    //     body: SingleChildScrollView(
-    //       child: SafeArea(
-    //         child: Container(
-    //           color: Colors.pink.shade50,
-    //           height: MediaQuery.of(context).size.height,
-    //           child: Form(
-    //             key: formKey,
-    //             child: Center(
-    //               child: Column(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   Container(
-    //                     child: Image.asset(
-    //                       'assets/images/diary.png',
-    //                       height: 150,
-    //                       fit: BoxFit.cover,
-    //                     ),
-    //                   ),
-    //                   SizedBox(height: 20),
-    //                   Container(
-    //                     width: MediaQuery.of(context).size.width * 0.8,
-    //                     margin: EdgeInsets.symmetric(vertical: 20),
-    //                     padding:
-    //                         EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.pink.shade300,
-    //                         borderRadius: BorderRadius.all(Radius.circular(29))),
-    //                     child: TextFormField(
-    //                       decoration: InputDecoration(
-    //                           icon: Icon(Icons.rtt_rounded, color: Colors.white),
-    //                           hintText: "Your First Name",
-    //                           hintStyle: TextStyle(color: Colors.white),
-    //                           border: InputBorder.none),
-    //                     ),
-    //                   ),
-    //                   Container(
-    //                     width: MediaQuery.of(context).size.width * 0.8,
-    //                     margin: EdgeInsets.symmetric(vertical: 20),
-    //                     padding:
-    //                         EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.pink.shade300,
-    //                         borderRadius: BorderRadius.all(Radius.circular(29))),
-    //                     child: TextFormField(
-    //                       decoration: InputDecoration(
-    //                           icon: Icon(Icons.rtt_rounded, color: Colors.white),
-    //                           hintText: "Your Last Name",
-    //                           hintStyle: TextStyle(color: Colors.white),
-    //                           border: InputBorder.none),
-    //                     ),
-    //                   ),
-    //                   ElevatedButton(
-    //                       child: Text(
-    //                         'Submit',
-    //                         style: TextStyle(
-    //                             fontSize: 20, fontWeight: FontWeight.bold),
-    //                       ),
-    //                       style: ElevatedButton.styleFrom(
-    //                           shape: StadiumBorder(),
-    //                           padding: EdgeInsets.symmetric(
-    //                               vertical: 15, horizontal: 40),
-    //                           primary: Colors.black),
-    //                       // onPressed: addUser,
-    //                       onPressed: () async {
-    //                         if (formKey.currentState!.validate()) {
-    //                           formKey.currentState!.save();
-    //                           await addUser();
-    //                           Navigator.pushReplacement(context,
-    //                               MaterialPageRoute(builder: (context) {
-    //                             return NavBar();
-    //                           }));
-    //                         }
-    //                         formKey.currentState!.reset();
-    //                       })
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   );
   }
 }

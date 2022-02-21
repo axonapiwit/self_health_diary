@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class ExerciseList extends StatefulWidget {
-  const ExerciseList({Key? key}) : super(key: key);
+  const ExerciseList({Key? key, required this.onChange}) : super(key: key);
+
+  final void Function(String, int) onChange;
 
   @override
   _ExerciseListState createState() => _ExerciseListState();
@@ -56,13 +58,15 @@ class _ExerciseListState extends State<ExerciseList> {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               children: exercise
-                  .map<Widget>((m) => GestureDetector(
+                  .map<Widget>((e) => GestureDetector(
                         onTap: () {
+                          widget.onChange(
+                              e["title"] as String, e["index"] as int);
                           setState(() {
-                            isExercise = m["index"] as int;
+                            isExercise = e["index"] as int;
                           });
 
-                          developer.log(m["index"].toString());
+                          developer.log(e["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -81,22 +85,22 @@ class _ExerciseListState extends State<ExerciseList> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        '${m["imgName"]}',
+                                        '${e["imgName"]}',
                                         height: 60,
                                       ),
                                       Text(
-                                        '${m["title"]}',
+                                        '${e["title"]}',
                                         style: TextStyle(
-                                            color:
-                                                (isExercise == m["index"] as int)
-                                                    ? Colors.white
-                                                    : Colors.black,
+                                            color: (isExercise ==
+                                                    e["index"] as int)
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   )),
-                                  decoration: (isExercise == m["index"] as int)
+                                  decoration: (isExercise == e["index"] as int)
                                       ? BoxDecoration(
                                           color: Color(0xFF56C956),
                                           borderRadius: BorderRadius.all(

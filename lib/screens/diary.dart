@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:self_health_diary/models/diary.dart';
 import 'package:self_health_diary/screens/home.dart';
 import 'package:self_health_diary/widgets/exercise_list.dart';
 import 'package:self_health_diary/widgets/foods_list.dart';
@@ -16,8 +19,25 @@ class DiaryScreen extends StatefulWidget {
 }
 
 class _DiaryScreenState extends State<DiaryScreen> {
+  Diary diary = Diary(dateTime: DateTime.now());
+
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+    Future addDiary() async {
+      await FirebaseFirestore.instance.collection('diaries').add({
+        'createdBy': user!.uid,
+        'mood': diary.mood,
+        'sleep': diary.sleep,
+        'food': diary.food,
+        'water': diary.water,
+        'exercise': diary.exercise,
+        'dateTime': diary.dateTime,
+        'status': true,
+        'moodPoint': diary.moodPoint,
+      });
+    }
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -33,23 +53,54 @@ class _DiaryScreenState extends State<DiaryScreen> {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
-                  MoodsList(),
+                  MoodsList(onChange: (title, index) {
+                    setState(() {
+                      diary.mood = title;
+                      diary.moodPoint = index;
+                    });
+                    print(title);
+                    print(index);
+                  }),
                   SizedBox(
                     height: 20,
                   ),
-                  SleepsList(),
+                  SleepsList(onChange: (title, index) {
+                    setState(() {
+                      diary.sleep = title;
+                    });
+                    print(title);
+                    print(index);
+                  }),
                   SizedBox(
                     height: 20,
                   ),
-                  FoodsList(),
+                  FoodsList(onChange: (title, index) {
+                    setState(() {
+                      diary.food = title;
+                    });
+                    print(title);
+                    print(index);
+                  }),
                   SizedBox(
                     height: 20,
                   ),
-                  WatersList(),
+                  WatersList(onChange: (title, index) {
+                    setState(() {
+                      diary.water = title;
+                    });
+                    print(title);
+                    print(index);
+                  }),
                   SizedBox(
                     height: 20,
                   ),
-                  ExerciseList(),
+                  ExerciseList(onChange: (title, index) {
+                    setState(() {
+                      diary.exercise = title;
+                    });
+                    print(title);
+                    print(index);
+                  }),
                   SizedBox(
                     height: 20,
                   ),
@@ -70,7 +121,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
-                        Navigator.pop(
+                        addDiary();
+                        setState(() {
+                          diary.dateTime;
+                        });
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
