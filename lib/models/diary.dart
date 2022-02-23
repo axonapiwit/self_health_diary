@@ -6,7 +6,7 @@ class Diary {
   late String water;
   late String exercise;
   late String? note;
-  late int moodPoint;
+  late int moodScore;
   late dynamic dateTime;
   late bool status;
 
@@ -18,7 +18,7 @@ class Diary {
     this.water = '',
     this.exercise = '',
     this.note = '',
-    this.moodPoint = 0,
+    this.moodScore = 0,
     this.dateTime,
     this.status = true,
   });
@@ -33,7 +33,7 @@ class Diary {
       water: json['water'] ?? '',
       exercise: json['exercise'] ?? '',
       note: json['note'] ?? '',
-      moodPoint: json['moodPoint'] ?? 0,
+      moodScore: json['moodScore'] ?? 0,
       dateTime: json['dateTime'].toDate(),
       status: json['status'] ?? true,
     );

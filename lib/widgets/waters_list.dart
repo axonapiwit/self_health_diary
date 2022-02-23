@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class WatersList extends StatefulWidget {
-  const WatersList({Key? key, required this.onChange}) : super(key: key);
+  const WatersList({Key? key, required this.onChange, this.waterSelected = ''})
+      : super(key: key);
 
   final void Function(String, int) onChange;
+  final String waterSelected;
 
   @override
   _SleepsListState createState() => _SleepsListState();
@@ -34,6 +36,21 @@ class _SleepsListState extends State<WatersList> {
       'index': 3,
     },
   ];
+
+  @override
+  initState() {
+    getWater();
+    super.initState();
+  }
+
+  getWater() {
+    print(widget.waterSelected);
+    for (var i = 0; i < waters.length; i++) {
+      if (widget.waterSelected == waters[i]['title']) {
+        isWater = waters[i]['index'] as int;
+      }
+    }
+  }
 
   int? isWater = null;
 

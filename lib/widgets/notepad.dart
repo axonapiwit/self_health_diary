@@ -27,12 +27,13 @@ class _NotePadState extends State<NotePad> {
             color: Palette.secondary,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: TextFormField(
+          child: TextField(
             minLines:
                 3, // any number you need (It works as the rows for the textarea)
             keyboardType: TextInputType.multiline,
             maxLines: null,
             decoration: InputDecoration(
+              hintText: 'What are you doing in day',
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent),
               ),

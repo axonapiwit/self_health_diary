@@ -17,22 +17,27 @@ class _HomeScreenState extends State<HomeScreen> {
     {
       'imgName': 'assets/icons/excellence.png',
       'title': 'Excellence',
+      'index' : 4,
     },
     {
       'imgName': 'assets/icons/good.png',
       'title': 'Good',
+      'index' : 3,
     },
     {
       'imgName': 'assets/icons/meduim.png',
       'title': 'Meduim',
+      'index' : 2,
     },
     {
       'imgName': 'assets/icons/badly.png',
-      'title': 'Badly',
+      'title': 'Badly', 
+      'index' : 1,
     },
     {
       'imgName': 'assets/icons/verybad.png',
       'title': 'Very Bad',
+      'index' : 0,
     },
   ];
 
@@ -81,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('diaries')
-              .orderBy('dateTime',descending: true)
+              .orderBy('dateTime', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -161,15 +166,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                DetailDiary(
-                                                                    mood: diary
-                                                                        .mood,
-                                                                    sleep: diary
-                                                                        .sleep,
-                                                                    id: diary
-                                                                        .id),
-                                                          ),
+                                                              builder:
+                                                                  (context) =>
+                                                                      DetailDiary(
+                                                                        id: diary
+                                                                            .id,
+                                                                        mood: diary
+                                                                            .mood,
+                                                                        sleep: diary
+                                                                            .sleep,
+                                                                        food: diary
+                                                                            .food,
+                                                                        water: diary
+                                                                            .water,
+                                                                        exercise:
+                                                                            diary.exercise,
+                                                                      )),
                                                         );
                                                       }),
                                                   TextButton(

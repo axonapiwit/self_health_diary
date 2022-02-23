@@ -33,17 +33,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
       //     .then((value) => {print(value.docs.length)});
       await FirebaseFirestore.instance
           .collection('diaries')
-          .orderBy('dateTime')
           .get()
           .then((value) => {
-                print(value.docs.last.data()['dateTime'].toDate()),
-                print(new DateTime.now().subtract(Duration(days: 1))),
-                if (value.docs.last
-                    .data()['dateTime']
-                    .toDate()
-                    .isBefore(new DateTime.now().subtract(Duration(days: 1))))
+                if (value.docs.length < 1)
                   {
-                    print('yes'),
+                    print('< 1'),
                     FirebaseFirestore.instance.collection('diaries').add({
                       'createdBy': user!.uid,
                       'mood': diary.mood,
@@ -53,7 +47,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       'exercise': diary.exercise,
                       'dateTime': diary.dateTime,
                       'status': true,
-                      'moodPoint': diary.moodPoint,
+                      'moodScore': diary.moodScore,
                     }).then((value) => FirebaseFirestore.instance
                             .collection('diaries')
                             .doc(value.id)
@@ -61,8 +55,45 @@ class _DiaryScreenState extends State<DiaryScreen> {
                           'id': value.id,
                         }).then((value) => Navigator.pop(context)))
                   }
-                else
-                  print('no')
+                else if (value.docs.length > 0)
+                  print('> 0'),
+                FirebaseFirestore.instance
+                    .collection('diaries')
+                    .orderBy('dateTime')
+                    .get()
+                    .then((value) => {
+                          // print(value.docs.last.data()['dateTime'].toDate()),
+                          // print(new DateTime.now().subtract(Duration(days: 1))),
+                          if (value.docs.last
+                              .data()['dateTime']
+                              .toDate()
+                              .isBefore(new DateTime.now()
+                                  .subtract(Duration(minutes: 1))))
+                            {
+                              print('yes'),
+                              FirebaseFirestore.instance
+                                  .collection('diaries')
+                                  .add({
+                                'createdBy': user!.uid,
+                                'mood': diary.mood,
+                                'sleep': diary.sleep,
+                                'food': diary.food,
+                                'water': diary.water,
+                                'exercise': diary.exercise,
+                                'dateTime': diary.dateTime,
+                                'status': true,
+                                'moodScore': diary.moodScore,
+                              }).then((value) => FirebaseFirestore.instance
+                                          .collection('diaries')
+                                          .doc(value.id)
+                                          .update({
+                                        'id': value.id,
+                                      }).then((value) =>
+                                              Navigator.pop(context)))
+                            }
+                          else
+                            print('no')
+                        })
               });
     }
 
@@ -84,7 +115,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   MoodsList(onChange: (title, index) {
                     setState(() {
                       diary.mood = title;
-                      diary.moodPoint = index;
+                      diary.moodScore = index;
                     });
                     print(title);
                     print(index);

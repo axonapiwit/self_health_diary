@@ -18,27 +18,27 @@ class _MoodsListState extends State<MoodsList> {
     {
       'imgName': 'assets/icons/excellence.png',
       'title': 'Excellence',
-      'index': 5,
+      'index': 4,
     },
     {
       'imgName': 'assets/icons/good.png',
       'title': 'Good',
-      'index': 4,
+      'index': 3,
     },
     {
       'imgName': 'assets/icons/medium.png',
       'title': 'Medium',
-      'index': 3,
+      'index': 2,
     },
     {
       'imgName': 'assets/icons/badly.png',
       'title': 'Badly',
-      'index': 2,
+      'index': 1,
     },
     {
       'imgName': 'assets/icons/verybad.png',
       'title': 'Very Bad',
-      'index': 1,
+      'index': 0,
     },
   ];
 

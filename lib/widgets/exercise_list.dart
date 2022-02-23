@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class ExerciseList extends StatefulWidget {
-  const ExerciseList({Key? key, required this.onChange}) : super(key: key);
+  const ExerciseList({Key? key, required this.onChange, this.exerciseSelected = ''}) : super(key: key);
 
   final void Function(String, int) onChange;
+  final String exerciseSelected;
 
   @override
   _ExerciseListState createState() => _ExerciseListState();
 }
 
 class _ExerciseListState extends State<ExerciseList> {
-  var exercise = [
+  var exercises = [
     {
       'imgName': 'assets/icons/dumbbell.png',
       'title': '60 Min',
@@ -34,6 +35,21 @@ class _ExerciseListState extends State<ExerciseList> {
       'index': 3,
     },
   ];
+
+  @override
+  initState() {
+    getExercise();
+    super.initState();
+  }
+
+  getExercise() {
+    print(widget.exerciseSelected);
+    for (var i = 0; i < exercises.length; i++) {
+      if (widget.exerciseSelected == exercises[i]['title']) {
+        isExercise = exercises[i]['index'] as int;
+      }
+    }
+  }
 
   int? isExercise = null;
 
@@ -57,7 +73,7 @@ class _ExerciseListState extends State<ExerciseList> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              children: exercise
+              children: exercises
                   .map<Widget>((e) => GestureDetector(
                         onTap: () {
                           widget.onChange(

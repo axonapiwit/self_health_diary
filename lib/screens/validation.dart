@@ -175,6 +175,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(29))),
                                     child: TextField(
+                                      keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                           icon: Icon(Icons.rtt_rounded,
                                               color: Colors.black),
@@ -199,6 +200,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(29))),
                                     child: TextField(
+                                      keyboardType: TextInputType.number,
                                       decoration: InputDecoration(
                                           icon: Icon(Icons.rtt_rounded,
                                               color: Colors.black),

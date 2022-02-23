@@ -13,14 +13,20 @@ class DetailDiary extends StatefulWidget {
   const DetailDiary(
       {Key? key,
       String,
+      required this.id,
       required this.mood,
       required this.sleep,
-      required this.id})
+      required this.food,
+      required this.water,
+      required this.exercise})
       : super(key: key);
 
+  final String id;
   final String mood;
   final String sleep;
-  final String id;
+  final String food;
+  final String water;
+  final String exercise;
 
   @override
   _DetailDiaryState createState() => _DetailDiaryState();
@@ -34,6 +40,9 @@ class _DetailDiaryState extends State<DetailDiary> {
     super.initState();
     diary.mood = widget.mood;
     diary.sleep = widget.sleep;
+    diary.food = widget.food;
+    diary.water = widget.water;
+    diary.exercise = widget.exercise;
     // print(diary.mood);
   }
 
@@ -51,7 +60,7 @@ class _DetailDiaryState extends State<DetailDiary> {
         'water': diary.water,
         'exercise': diary.exercise,
         'status': true,
-        'moodPoint': diary.moodPoint,
+        'moodScore': diary.moodScore,
       }).then((value) => {Navigator.pop(context), Navigator.pop(context)});
     }
 
@@ -74,7 +83,7 @@ class _DetailDiaryState extends State<DetailDiary> {
                       onChange: (title, index) {
                         setState(() {
                           diary.mood = title;
-                          diary.moodPoint = index;
+                          diary.moodScore = index;
                         });
                         print(title);
                         print(index);
@@ -95,33 +104,41 @@ class _DetailDiaryState extends State<DetailDiary> {
                   SizedBox(
                     height: 20,
                   ),
-                  FoodsList(onChange: (title, index) {
-                    setState(() {
-                      diary.food = title;
-                    });
-                    print(title);
-                    print(index);
-                  }),
+                  FoodsList(
+                      onChange: (title, index) {
+                        setState(() {
+                          diary.food = title;
+                        });
+                        print(title);
+                        print(index);
+                      },
+                      foodSelected: diary.food),
                   SizedBox(
                     height: 20,
                   ),
-                  WatersList(onChange: (title, index) {
-                    setState(() {
-                      diary.water = title;
-                    });
-                    print(title);
-                    print(index);
-                  }),
+                  WatersList(
+                      onChange: (title, index) {
+                        setState(() {
+                          diary.water = title;
+                        });
+                        print(title);
+                        print(index);
+                      },
+                      waterSelected: diary.water),
                   SizedBox(
                     height: 20,
                   ),
-                  ExerciseList(onChange: (title, index) {
-                    setState(() {
-                      diary.exercise = title;
-                    });
-                    print(title);
-                    print(index);
-                  }),
+                  ExerciseList(
+                      onChange: (title, index) {
+                        setState(
+                          () {
+                            diary.exercise = title;
+                          },
+                        );
+                        print(title);
+                        print(index);
+                      },
+                      exerciseSelected: diary.exercise),
                   SizedBox(
                     height: 20,
                   ),
