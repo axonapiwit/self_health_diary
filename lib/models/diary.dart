@@ -23,7 +23,7 @@ class Diary {
     this.status = true,
   });
 
-  factory Diary.fromJson(Map<String, dynamic> json) {
+  factory Diary.fromJson(dynamic json) {
     // print(json['dateTime'].toDate());
     return Diary(
       id: json['id'] ?? '',
@@ -32,10 +32,12 @@ class Diary {
       food: json['food'] ?? '',
       water: json['water'] ?? '',
       exercise: json['exercise'] ?? '',
-      note: json['note'] ?? '',
+      // note: json['note'] ?? '',
       moodScore: json['moodScore'] ?? 0,
       dateTime: json['dateTime'].toDate(),
       status: json['status'] ?? true,
     );
   }
+
+  static fromMap(data) {}
 }
