@@ -54,6 +54,9 @@ dependencies:
   google_sign_in: ^5.2.3
   provider: ^6.0.2
   fl_chart: ^0.41.0
+  flutter_calendar_carousel: ^2.1.0
+  uuid: ^3.0.6
+  dotted_border: ^2.0.0+2
   
 dev_dependencies:
   flutter_test:
