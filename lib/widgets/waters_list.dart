@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
@@ -17,22 +16,22 @@ class _SleepsListState extends State<WatersList> {
   var waters = [
     {
       'imgName': 'assets/icons/water-bottle.png',
-      'title': '2 Liter',
+      'title': '2 ลิตร',
       'index': 0,
     },
     {
       'imgName': 'assets/icons/water-bottle1.png',
-      'title': '1.5 Liter',
+      'title': '1.5 ลิตร',
       'index': 1,
     },
     {
       'imgName': 'assets/icons/water-bottle2.png',
-      'title': '1 Liter',
+      'title': '1 ลิตร',
       'index': 2,
     },
     {
       'imgName': 'assets/icons/water1.png',
-      'title': "0.5 Liter",
+      'title': "0.5 ลิตร",
       'index': 3,
     },
   ];
@@ -44,7 +43,6 @@ class _SleepsListState extends State<WatersList> {
   }
 
   getWater() {
-    print(widget.waterSelected);
     for (var i = 0; i < waters.length; i++) {
       if (widget.waterSelected == waters[i]['title']) {
         isWater = waters[i]['index'] as int;
@@ -82,8 +80,6 @@ class _SleepsListState extends State<WatersList> {
                           setState(() {
                             isWater = w["index"] as int;
                           });
-
-                          developer.log(w["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -107,6 +103,7 @@ class _SleepsListState extends State<WatersList> {
                                       ),
                                       Text(
                                         '${w["title"]}',
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color:
                                                 (isWater == w["index"] as int)

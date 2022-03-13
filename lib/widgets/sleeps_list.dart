@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
@@ -17,23 +16,28 @@ class _SleepsListState extends State<SleepsList> {
   var sleeps = [
     {
       'imgName': 'assets/icons/sleeping0.png',
-      'title': '7-8 Hrs',
+      'title': '8 ชม. ขึ้นไป',
       'index': 0,
     },
     {
-      'imgName': 'assets/icons/sleeping1.png',
-      'title': '5-6 Hrs',
+      'imgName': 'assets/icons/sleeping0.png',
+      'title': '7-8 ชม.',
       'index': 1,
     },
     {
-      'imgName': 'assets/icons/sleeping2.png',
-      'title': '3-4 Hrs',
+      'imgName': 'assets/icons/sleeping1.png',
+      'title': '5-6 ชม.',
       'index': 2,
     },
     {
-      'imgName': 'assets/icons/tired.png',
-      'title': "Didn't Sleep",
+      'imgName': 'assets/icons/sleeping2.png',
+      'title': '3-4 ชม.',
       'index': 3,
+    },
+    {
+      'imgName': 'assets/icons/tired.png',
+      'title': "ไม่ได้นอน",
+      'index': 4,
     },
   ];
 
@@ -44,7 +48,6 @@ class _SleepsListState extends State<SleepsList> {
   }
 
   getSleep() {
-    print(widget.sleepSelected);
     for (var i = 0; i < sleeps.length; i++) {
       if (widget.sleepSelected == sleeps[i]['title']) {
         isSleep = sleeps[i]['index'] as int;
@@ -82,8 +85,6 @@ class _SleepsListState extends State<SleepsList> {
                           setState(() {
                             isSleep = s["index"] as int;
                           });
-
-                          developer.log(s["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -107,6 +108,7 @@ class _SleepsListState extends State<SleepsList> {
                                       ),
                                       Text(
                                         '${s["title"]}',
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color:
                                                 (isSleep == s["index"] as int)

@@ -18,15 +18,19 @@ class DetailDiary extends StatefulWidget {
       required this.sleep,
       required this.food,
       required this.water,
-      required this.exercise})
+      required this.exercise,
+      required this.note,
+      required this.moodScore})
       : super(key: key);
 
   final String id;
   final String mood;
+  final int moodScore;
   final String sleep;
   final String food;
   final String water;
   final String exercise;
+  final String note;
 
   @override
   _DetailDiaryState createState() => _DetailDiaryState();
@@ -34,22 +38,23 @@ class DetailDiary extends StatefulWidget {
 
 class _DetailDiaryState extends State<DetailDiary> {
   Diary diary = Diary(dateTime: DateTime.now());
+  final noteControl = TextEditingController();
 
   @override
   initState() {
     super.initState();
     diary.mood = widget.mood;
+    diary.moodScore = widget.moodScore;
     diary.sleep = widget.sleep;
     diary.food = widget.food;
     diary.water = widget.water;
     diary.exercise = widget.exercise;
-    // print(diary.mood);
+    noteControl.text = widget.note;
   }
 
   @override
   Widget build(BuildContext context) {
     Future editDiary() async {
-      print(widget.id);
       await FirebaseFirestore.instance
           .collection('diaries')
           .doc(widget.id)
@@ -61,6 +66,7 @@ class _DetailDiaryState extends State<DetailDiary> {
         'exercise': diary.exercise,
         'status': true,
         'moodScore': diary.moodScore,
+        'note': noteControl.text,
       }).then((value) => {Navigator.pop(context), Navigator.pop(context)});
     }
 
@@ -85,8 +91,6 @@ class _DetailDiaryState extends State<DetailDiary> {
                           diary.mood = title;
                           diary.moodScore = index;
                         });
-                        print(title);
-                        print(index);
                       },
                       moodSelected: diary.mood),
                   SizedBox(
@@ -97,8 +101,6 @@ class _DetailDiaryState extends State<DetailDiary> {
                         setState(() {
                           diary.sleep = title;
                         });
-                        print(title);
-                        print(index);
                       },
                       sleepSelected: diary.sleep),
                   SizedBox(
@@ -109,8 +111,6 @@ class _DetailDiaryState extends State<DetailDiary> {
                         setState(() {
                           diary.food = title;
                         });
-                        print(title);
-                        print(index);
                       },
                       foodSelected: diary.food),
                   SizedBox(
@@ -121,8 +121,6 @@ class _DetailDiaryState extends State<DetailDiary> {
                         setState(() {
                           diary.water = title;
                         });
-                        print(title);
-                        print(index);
                       },
                       waterSelected: diary.water),
                   SizedBox(
@@ -135,14 +133,12 @@ class _DetailDiaryState extends State<DetailDiary> {
                             diary.exercise = title;
                           },
                         );
-                        print(title);
-                        print(index);
                       },
                       exerciseSelected: diary.exercise),
                   SizedBox(
                     height: 20,
                   ),
-                  NotePad(),
+                  NotePad(controller: noteControl),
                   SizedBox(
                     height: 20,
                   ),

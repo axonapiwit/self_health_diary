@@ -9,6 +9,9 @@ import 'package:self_health_diary/widgets/notepad.dart';
 import 'package:self_health_diary/widgets/sleeps_list.dart';
 import 'package:self_health_diary/widgets/waters_list.dart';
 import 'package:self_health_diary/themes/colors.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = Uuid();
 
 class DiaryScreen extends StatefulWidget {
   const DiaryScreen({Key? key}) : super(key: key);
@@ -19,82 +22,56 @@ class DiaryScreen extends StatefulWidget {
 
 class _DiaryScreenState extends State<DiaryScreen> {
   Diary diary = Diary(dateTime: DateTime.now());
+  final noteControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     Future addDiary() async {
-      print('object');
-      // await FirebaseFirestore.instance
-      //     .collection('diaries')
-      //     .where('dateTime',
-      //         isLessThan: new DateTime.now().subtract(Duration(days: 1)))
-      //     .get()
-      //     .then((value) => {print(value.docs.length)});
       await FirebaseFirestore.instance
           .collection('diaries')
+          .orderBy('dateTime', descending: true)
           .get()
-          .then((value) => {
-                if (value.docs.length < 1)
-                  {
-                    print('< 1'),
-                    FirebaseFirestore.instance.collection('diaries').add({
-                      'createdBy': user!.uid,
-                      'mood': diary.mood,
-                      'sleep': diary.sleep,
-                      'food': diary.food,
-                      'water': diary.water,
-                      'exercise': diary.exercise,
-                      'dateTime': diary.dateTime,
-                      'status': true,
-                      'moodScore': diary.moodScore,
-                    }).then((value) => FirebaseFirestore.instance
-                            .collection('diaries')
-                            .doc(value.id)
-                            .update({
-                          'id': value.id,
-                        }).then((value) => Navigator.pop(context)))
-                  }
-                else if (value.docs.length > 0)
-                  print('> 0'),
-                FirebaseFirestore.instance
-                    .collection('diaries')
-                    .orderBy('dateTime')
-                    .get()
-                    .then((value) => {
-                          // print(value.docs.last.data()['dateTime'].toDate()),
-                          // print(new DateTime.now().subtract(Duration(days: 1))),
-                          if (value.docs.last
-                              .data()['dateTime']
-                              .toDate()
-                              .isBefore(new DateTime.now()
-                                  .subtract(Duration(minutes: 1))))
-                            {
-                              print('yes'),
-                              FirebaseFirestore.instance
-                                  .collection('diaries')
-                                  .add({
-                                'createdBy': user!.uid,
-                                'mood': diary.mood,
-                                'sleep': diary.sleep,
-                                'food': diary.food,
-                                'water': diary.water,
-                                'exercise': diary.exercise,
-                                'dateTime': diary.dateTime,
-                                'status': true,
-                                'moodScore': diary.moodScore,
-                              }).then((value) => FirebaseFirestore.instance
-                                          .collection('diaries')
-                                          .doc(value.id)
-                                          .update({
-                                        'id': value.id,
-                                      }).then((value) =>
-                                              Navigator.pop(context)))
-                            }
-                          else
-                            print('no')
-                        })
-              });
+          .then((value) async {
+        final id = uuid.v4();
+        if (value.docs.isEmpty) {
+          await FirebaseFirestore.instance.collection('diaries').doc(id).set({
+            'createdBy': user!.uid,
+            'id': id,
+            'mood': diary.mood,
+            'sleep': diary.sleep,
+            'food': diary.food,
+            'water': diary.water,
+            'exercise': diary.exercise,
+            'dateTime': diary.dateTime,
+            'status': true,
+            'moodScore': diary.moodScore,
+            'note': noteControl.text,
+          });
+          Navigator.pop(context);
+        } else if (value.docs.length > 0) {
+          final date1 = value.docs.first.data()['dateTime'].toDate();
+          final date2 = DateTime.now();
+          final difference = date2.difference(date1).inDays;
+
+          if (difference >= 0 && (date1.day != date2.day)) {
+            FirebaseFirestore.instance.collection('diaries').doc(id).set({
+              'createdBy': user!.uid,
+              'id': id,
+              'mood': diary.mood,
+              'sleep': diary.sleep,
+              'food': diary.food,
+              'water': diary.water,
+              'exercise': diary.exercise,
+              'dateTime': diary.dateTime,
+              'status': true,
+              'moodScore': diary.moodScore,
+              'note': noteControl.text,
+            });
+            Navigator.pop(context);
+          }
+        }
+      });
     }
 
     return GestureDetector(
@@ -117,8 +94,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       diary.mood = title;
                       diary.moodScore = index;
                     });
-                    print(title);
-                    print(index);
+                 
                   }),
                   SizedBox(
                     height: 20,
@@ -127,8 +103,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.sleep = title;
                     });
-                    print(title);
-                    print(index);
+                
                   }),
                   SizedBox(
                     height: 20,
@@ -137,8 +112,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.food = title;
                     });
-                    print(title);
-                    print(index);
+              
                   }),
                   SizedBox(
                     height: 20,
@@ -147,8 +121,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.water = title;
                     });
-                    print(title);
-                    print(index);
+       
                   }),
                   SizedBox(
                     height: 20,
@@ -157,13 +130,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.exercise = title;
                     });
-                    print(title);
-                    print(index);
+              
                   }),
                   SizedBox(
                     height: 20,
                   ),
-                  NotePad(),
+                  NotePad(controller: noteControl),
                   SizedBox(
                     height: 20,
                   ),

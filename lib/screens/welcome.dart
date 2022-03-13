@@ -44,7 +44,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 // fetchUser(String uid) async {
 //     final userDoc =
 //         await FirebaseFirestore.instance.collection('users').doc(uid).get();
-//     print(userDoc.data());
 //     if (userDoc.data()!['role'] == 'new') {
 //       Navigator.push(
 //         context,
@@ -60,7 +59,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 //     super.initState();
 //     WidgetsBinding.instance?.addPostFrameCallback((_) {
 //       final user = Provider.of<User?>(context, listen: false);
-//       print(user?.email);
 //       if (user == null) {
 //         Navigator.push(
 //           context,

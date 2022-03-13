@@ -3,18 +3,16 @@ class Profile {
   String lname;
   String gender;
   String role;
-  int height;
-  int weight;
-  int bmi;
+  double height;
+  double weight;
 
   Profile({
     this.fname = '',
     this.lname = '',
     this.gender = '',
     this.role = '',
-    this.weight = 0,
-    this.height = 0,
-    this.bmi = 0,
+    this.weight = 0.0,
+    this.height = 0.0,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -25,7 +23,6 @@ class Profile {
       role: json['role'],
       height: json['height'],
       weight: json['weight'],
-      bmi: json['bmi'],
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
@@ -16,29 +15,29 @@ class MoodsList extends StatefulWidget {
 class _MoodsListState extends State<MoodsList> {
   var moods = [
     {
-      'imgName': 'assets/icons/excellence.png',
-      'title': 'Excellence',
-      'index': 4,
-    },
-    {
-      'imgName': 'assets/icons/good.png',
-      'title': 'Good',
-      'index': 3,
-    },
-    {
-      'imgName': 'assets/icons/medium.png',
-      'title': 'Medium',
-      'index': 2,
-    },
-    {
-      'imgName': 'assets/icons/badly.png',
-      'title': 'Badly',
+      'imgName': 'assets/icons/1.png',
+      'title': 'ดีมาก',
       'index': 1,
     },
     {
-      'imgName': 'assets/icons/verybad.png',
-      'title': 'Very Bad',
-      'index': 0,
+      'imgName': 'assets/icons/2.png',
+      'title': 'ดี',
+      'index': 2,
+    },
+    {
+      'imgName': 'assets/icons/3.png',
+      'title': 'ปานกลาง',
+      'index': 3,
+    },
+    {
+      'imgName': 'assets/icons/4.png',
+      'title': 'แย่',
+      'index': 4,
+    },
+    {
+      'imgName': 'assets/icons/5.png',
+      'title': 'แย่มาก',
+      'index': 5,
     },
   ];
 
@@ -86,8 +85,6 @@ class _MoodsListState extends State<MoodsList> {
                           setState(() {
                             isMood = m["index"] as int;
                           });
-
-                          developer.log(m["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -111,6 +108,7 @@ class _MoodsListState extends State<MoodsList> {
                                       ),
                                       Text(
                                         '${m["title"]}',
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: (isMood == m["index"] as int)
                                                 ? Colors.white

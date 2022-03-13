@@ -1,20 +1,11 @@
-// ignore: unused_import
-import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class BarChartOne extends StatefulWidget {
   const BarChartOne({Key? key}) : super(key: key);
-  final List<Color> availableColors = const [
-    Colors.redAccent,
-    Colors.yellow,
-    Colors.pink,
-    Colors.green,
-    Colors.orange,
-    Colors.lightBlue,
-    Colors.purpleAccent,
-  ];
 
   @override
   _BarChartOneState createState() => _BarChartOneState();
@@ -23,7 +14,65 @@ class BarChartOne extends StatefulWidget {
 class _BarChartOneState extends State<BarChartOne> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   int touchedIndex = -1;
-  bool isPlaying = false;
+  User? user = FirebaseAuth.instance.currentUser;
+  final moodScore = [];
+  List<BarChartGroupData> showingGroups = [];
+  List<int> moodScores = [];
+
+  getBarChart() async {
+    final now = DateTime.now();
+    final startDate = now.subtract(Duration(days: 21));
+    final sunday = startDate.subtract(Duration(days: now.weekday));
+    final data = await FirebaseFirestore.instance
+        .collection('diaries')
+        .where('createdBy', isEqualTo: user!.uid)
+        .orderBy('dateTime')
+        .where("dateTime", isGreaterThan: sunday)
+        .get();
+
+    // key = Start of week day, values = list
+    Map<DateTime, List<Map<String, dynamic>>> weekMap = {};
+    final json = data.docs.map((e) => e.data()).toList();
+
+    if (json.isEmpty) return true;
+    // range firstDate to lastItem
+    final _dayDiff = DateTime(sunday.year, sunday.month, sunday.day)
+        .difference(DateTime(now.year, now.month, now.day));
+
+    // range week count
+    int range = (_dayDiff.inDays.abs() / 7).ceil();
+
+    for (int i = 0; i < range; i++) {
+      final _date = sunday.add(Duration(days: i * 7));
+      weekMap[_date] = [];
+      for (int j = 0; j < json.length; j++) {
+        // check date at loop with sunday
+        final __date =
+            (json[j]["dateTime"].toDate() as DateTime).difference(_date).inDays;
+        // range in week
+        if (__date < 7 && __date >= 0) {
+          weekMap[_date]!.add(json[j]);
+        }
+      }
+    }
+    List<int> scores = weekMap.values.map((e) {
+      int _sum = 0;
+      e.forEach((u) => _sum += u["moodScore"] as int);
+      return _sum;
+    }).toList();
+    if (scores.length > 4) {
+      scores = scores.skip(scores.length - 4).toList();
+    }
+
+    moodScores = scores;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getBarChart();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,28 +81,19 @@ class _BarChartOneState extends State<BarChartOne> {
         height: 350,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
-          color: Palette.tertiary[300],
+          color: Palette.tertiary[200],
         ),
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Analysis',
+              'กราฟประเมินอารมณ์ในแต่ละสัปดาห์',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 4),
-            Text(
-              'Weekly Moods',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -63,47 +103,35 @@ class _BarChartOneState extends State<BarChartOne> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: BarChart(mainBarData()),
               ),
-            )
+            ),
           ],
         ),
       ),
       Positioned(
-          bottom: 36,
+          bottom: 50,
           left: 14,
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 4),
                 child: Image.asset(
-                  'assets/icons/excellence.png',
+                  'assets/icons/5.png',
                   width: 30,
                 ),
               ),
+              SizedBox(height: 36),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Image.asset(
-                  'assets/icons/good.png',
+                  'assets/icons/4.png',
                   width: 30,
                 ),
               ),
+              SizedBox(height: 38),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Image.asset(
-                  'assets/icons/medium.png',
-                  width: 30,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 4),
-                child: Image.asset(
-                  'assets/icons/badly.png',
-                  width: 30,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 4),
-                child: Image.asset(
-                  'assets/icons/verybad.png',
+                  'assets/icons/1.png',
                   width: 30,
                 ),
               ),
@@ -116,7 +144,7 @@ class _BarChartOneState extends State<BarChartOne> {
     int x,
     double y, {
     bool isTouched = false,
-    Color barColor = Colors.blueAccent,
+    Color barColor = Colors.deepPurpleAccent,
     double width = 22,
     List<int> showTooltips = const [],
   }) {
@@ -132,7 +160,7 @@ class _BarChartOneState extends State<BarChartOne> {
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: 20,
+            y: 37,
             colors: [barBackgroundColor],
           ),
         ),
@@ -141,26 +169,14 @@ class _BarChartOneState extends State<BarChartOne> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex);
-          case 1:
-            return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
-          case 2:
-            return makeGroupData(2, 5, isTouched: i == touchedIndex);
-          case 3:
-            return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
-          case 4:
-            return makeGroupData(4, 9, isTouched: i == touchedIndex);
-          case 5:
-            return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
-          case 6:
-            return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
-          default:
-            return throw Error();
-        }
-      });
+  List<BarChartGroupData> showingGroupsFn() {
+    final List<BarChartGroupData> arr = [];
+    for (int i = 0; i < moodScores.length; i++) {
+      arr.add(makeGroupData(i, moodScores[i].toDouble(),
+          isTouched: i == touchedIndex));
+    }
+    return arr;
+  }
 
   BarChartData mainBarData() {
     return BarChartData(
@@ -168,35 +184,25 @@ class _BarChartOneState extends State<BarChartOne> {
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.blueGrey,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
-              String weekDay;
+              String weekly;
               switch (group.x.toInt()) {
                 case 0:
-                  weekDay = 'Sunday';
+                  weekly = '3 สัปดาห์ที่แล้ว';
                   break;
                 case 1:
-                  weekDay = 'Monday';
+                  weekly = '2 สัปดาห์ที่แล้ว';
                   break;
                 case 2:
-                  weekDay = 'Tuesday';
+                  weekly = '1 สัปดาห์ที่แล้ว';
                   break;
                 case 3:
-                  weekDay = 'Wednesday';
+                  weekly = 'สัปดาห์นี้';
                   break;
-                case 4:
-                  weekDay = 'Thursday';
-                  break;
-                case 5:
-                  weekDay = 'Friday';
-                  break;
-                case 6:
-                  weekDay = 'Saturday';
-                  break;
-
                 default:
                   throw Error();
               }
               return BarTooltipItem(
-                weekDay + '\n',
+                weekly + '\n',
                 const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -238,19 +244,13 @@ class _BarChartOneState extends State<BarChartOne> {
           getTitles: (double value) {
             switch (value.toInt()) {
               case 0:
-                return 'S';
+                return '3';
               case 1:
-                return 'M';
+                return '2';
               case 2:
-                return 'T';
+                return '1';
               case 3:
-                return 'W';
-              case 4:
-                return 'T';
-              case 5:
-                return 'F';
-              case 6:
-                return 'S';
+                return 'สัปดาห์นี้';
               default:
                 return '';
             }
@@ -263,41 +263,9 @@ class _BarChartOneState extends State<BarChartOne> {
       borderData: FlBorderData(
         show: false,
       ),
-      // barGroups: List.generate(7, (i) {
-      //   switch (i) {
-      //     case 0:
-      //       return makeGroupData(0, Random().nextInt(1).toDouble() + 6,
-      //           barColor: widget.availableColors[
-      //               Random().nextInt(widget.availableColors.length)]);
-      //     case 1:
-      //       return makeGroupData(1, Random().nextInt(15).toDouble() + 6,
-      //           barColor: widget.availableColors[
-      //               Random().nextInt(widget.availableColors.length)]);
-      //     case 2:
-      //       return makeGroupData(2, Random().nextInt(15).toDouble() + 6,
-      //           barColor: widget.availableColors[
-      //               Random().nextInt(widget.availableColors.length)]);
-      //     case 3:
-      //       return makeGroupData(3, Random().nextInt(15).toDouble() + 6,
-      //           barColor: widget.availableColors[
-      //               Random().nextInt(widget.availableColors.length)]);
-      //     case 4:
-      //       return makeGroupData(4, Random().nextInt(15).toDouble() + 6,
-      //           barColor: widget.availableColors[
-      //               Random().nextInt(widget.availableColors.length)]);
-      //     case 5:
-      //       return makeGroupData(5, Random().nextInt(15).toDouble() + 6,
-      //           barColor: widget.availableColors[
-      //               Random().nextInt(widget.availableColors.length)]);
-      //     case 6:
-      //       return makeGroupData(6, Random().nextInt(15).toDouble() + 6,
-      //           barColor: widget.availableColors[
-      //               Random().nextInt(widget.availableColors.length)]);
-      //     default:
-      //       return throw Error();
-      //   }
-      // }),
-      barGroups: showingGroups(),
+      maxY: 37,
+      minY: 7,
+      barGroups: showingGroupsFn(),
       gridData: FlGridData(show: false),
     );
   }

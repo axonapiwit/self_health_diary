@@ -6,7 +6,7 @@ import 'package:self_health_diary/models/diary.dart';
 import 'package:self_health_diary/screens/stat.dart';
 import 'package:self_health_diary/screens/home.dart';
 import 'package:self_health_diary/screens/diary.dart';
-import 'package:self_health_diary/screens/more.dart';
+import 'package:self_health_diary/screens/menu.dart';
 import 'package:self_health_diary/screens/profile.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
@@ -25,7 +25,7 @@ class _NavBarState extends State<NavBar> {
     HomeScreen(),
     StatScreen(),
     ProfileScreen(),
-    MoreScreen(),
+    MenuScreen(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -33,15 +33,10 @@ class _NavBarState extends State<NavBar> {
 
   validateCanAdd(List<QueryDocumentSnapshot<Object?>> json) {
     if (json.isEmpty) return true;
-    print('test$json');
     final diary = Diary.fromJson(json.first);
     final date = diary.dateTime;
-    print('this${diary.mood}');
-    print(diary.mood);
     final difference = DateTime.now().difference(date).inDays;
     return (difference >= 0 && (date.day != DateTime.now().day));
-    // print(json.first.data());
-    // return true;
   }
 
   @override
@@ -116,7 +111,7 @@ class _NavBarState extends State<NavBar> {
                                     : Colors.grey.shade600,
                               ),
                               Text(
-                                'Home',
+                                'หน้าหลัก',
                                 style: TextStyle(
                                   color: currentTab == 0
                                       ? Palette.primary
@@ -148,7 +143,7 @@ class _NavBarState extends State<NavBar> {
                                     : Colors.grey.shade600,
                               ),
                               Text(
-                                'Stats',
+                                'สถิติ',
                                 style: TextStyle(
                                   color: currentTab == 1
                                       ? Palette.primary
@@ -182,7 +177,7 @@ class _NavBarState extends State<NavBar> {
                                     : Colors.grey.shade600,
                               ),
                               Text(
-                                'Profile',
+                                'โปรไฟล์',
                                 style: TextStyle(
                                   color: currentTab == 3
                                       ? Palette.primary
@@ -199,7 +194,7 @@ class _NavBarState extends State<NavBar> {
                           minWidth: 40,
                           onPressed: () {
                             setState(() {
-                              currentScreen = MoreScreen();
+                              currentScreen = MenuScreen();
                               currentTab = 4;
                             });
                           },
@@ -214,7 +209,7 @@ class _NavBarState extends State<NavBar> {
                                     : Colors.grey.shade600,
                               ),
                               Text(
-                                'More',
+                                'รายการ',
                                 style: TextStyle(
                                   color: currentTab == 4
                                       ? Palette.primary

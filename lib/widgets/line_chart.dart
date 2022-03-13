@@ -16,41 +16,37 @@ class _LineChartOneState extends State<LineChartOne> {
   final moodScore = [];
   List<FlSpot> spot = [];
 
-  getChart() {
-    print('ben');
+  getLineChart() {
     List<Map<String, dynamic>> allData;
     FirebaseFirestore.instance
         .collection('diaries')
         .where('createdBy', isEqualTo: user!.uid)
+        .orderBy('dateTime')
         .get()
         .then((value) {
-      print(value.docs);
-      allData = value.docs.map((doc) =>
-          // spot.push(FlSpot(doc.data()['moodScore']),
-          //     FlSpot(doc.data()['moodScore']))
-          doc.data()).toList();
-      print(allData[0]);
-      allData.map((e) => moodScore.add(e['moodScore']));
-      print('ss$moodScore');
+      allData = value.docs.map((doc) => doc.data()).toList();
+      var subList;
+
+      if (allData.length > 7) {
+        subList = allData.skip(allData.length - 7).take(7);
+      } else {
+        subList = allData;
+      }
+      subList.map((e) => moodScore.add(e['moodScore']));
 
       double i = 0;
-      allData.forEach((element) {
-        print(element['moodScore'].runtimeType);
+      subList.forEach((element) {
         spot.add(FlSpot(i, (element['moodScore'] as int).toDouble()));
         i += 2.0;
       });
-      // spot = moodScore.asMap().entries.map((e) {
-      //   return FlSpot(e.key.toDouble(), e.value);
-      // }).toList();
-      print(spot);
+
       setState(() {});
     });
   }
 
   @override
   void initState() {
-    getChart();
-    print(spot);
+    getLineChart();
     super.initState();
   }
 
@@ -78,20 +74,11 @@ class _LineChartOneState extends State<LineChartOne> {
                 height: 20,
               ),
               Text(
-                'Moods Chart',
-                style: TextStyle(color: Colors.black, fontSize: 20),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                'Moods Chart in one weekend',
+                'กราฟแสดงอารมณ์ใน 1 สัปดาห์',
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -106,55 +93,49 @@ class _LineChartOneState extends State<LineChartOne> {
             ],
           ),
         ),
-        Positioned(
-            bottom: 40,
-            left: 14,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Image.asset(
-                    'assets/icons/5.png',
-                    width: 30,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Image.asset(
-                    'assets/icons/4.png',
-                    width: 30,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Image.asset(
-                    'assets/icons/3.png',
-                    width: 30,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Image.asset(
-                    'assets/icons/2.png',
-                    width: 30,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Image.asset(
-                    'assets/icons/1.png',
-                    width: 30,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Image.asset(
-                    'assets/icons/0.png',
-                    width: 30,
-                  ),
-                ),
-              ],
-            )),
+        // Positioned(
+        //     bottom: 75,
+        //     left: 14,
+        //     child: Column(
+        //       children: [
+        //         Container(
+        //           padding: EdgeInsets.symmetric(vertical: 4),
+        //           child: Image.asset(
+        //             'assets/icons/5.png',
+        //             width: 30,
+        //           ),
+        //         ),
+        //         Container(
+        //           padding: EdgeInsets.symmetric(vertical: 4),
+        //           child: Image.asset(
+        //             'assets/icons/4.png',
+        //             width: 30,
+        //           ),
+        //         ),
+        //         Container(
+        //           padding: EdgeInsets.symmetric(vertical: 4),
+        //           child: Image.asset(
+        //             'assets/icons/3.png',
+        //             width: 30,
+        //           ),
+        //         ),
+        //         Container(
+        //           padding: EdgeInsets.symmetric(vertical: 4),
+        //           child: Image.asset(
+        //             'assets/icons/2.png',
+        //             width: 30,
+        //           ),
+        //         ),
+        //         Container(
+        //           padding: EdgeInsets.symmetric(vertical: 4),
+        //           child: Image.asset(
+        //             'assets/icons/1.png',
+        //             width: 30,
+        //           ),
+        //         ),
+        //       ],
+        //     )),
+      
       ],
     );
   }
@@ -174,27 +155,30 @@ class _LineChartOneState extends State<LineChartOne> {
             getTitles: (value) {
               switch (value.toInt()) {
                 case 0:
-                  return 'Sun';
+                  return '1';
                 case 2:
-                  return 'Mon';
+                  return '2';
                 case 4:
-                  return 'Tue';
+                  return '3';
                 case 6:
-                  return 'Wed';
+                  return '4';
                 case 8:
-                  return 'Thu';
+                  return '5';
                 case 10:
-                  return 'Fri';
+                  return '6';
                 case 12:
-                  return 'Sat';
+                  return '7';
               }
               return '';
             }),
         leftTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (context, value) =>
-              TextStyle(color: Colors.transparent),
+          // getTextStyles: (context, value) =>
+          // TextStyle(color: Colors.transparent),
+          // TextStyle(color: Colors.black),
           margin: 8,
+
+          // Image.asset('/assets/icons/1.png'),
           reservedSize: 30,
         ),
         rightTitles: SideTitles(

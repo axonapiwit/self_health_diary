@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
@@ -16,29 +15,34 @@ class FoodsList extends StatefulWidget {
 class _FoodsListState extends State<FoodsList> {
   var foods = [
     {
-      'imgName': 'assets/icons/fish.png',
-      'title': '4 Meals',
+      'imgName': 'assets/icons/pasta.png',
+      'title': '4 มื้อขึ้นไป',
       'index': 0,
     },
     {
-      'imgName': 'assets/icons/sandwich.png',
-      'title': '3 Meals',
+      'imgName': 'assets/icons/fish.png',
+      'title': '4 มื้อ',
       'index': 1,
     },
     {
-      'imgName': 'assets/icons/thai-food.png',
-      'title': '2 Meals',
+      'imgName': 'assets/icons/sandwich.png',
+      'title': '3 มื้อ',
       'index': 2,
     },
     {
-      'imgName': 'assets/icons/noodles.png',
-      'title': '1 Meal',
+      'imgName': 'assets/icons/thai-food.png',
+      'title': '2 มื้อ',
       'index': 3,
     },
     {
-      'imgName': 'assets/icons/nofood.png',
-      'title': "Didn't Eat",
+      'imgName': 'assets/icons/noodles.png',
+      'title': '1 มื้อ',
       'index': 4,
+    },
+    {
+      'imgName': 'assets/icons/nofood.png',
+      'title': "ไม่ทานอาหาร",
+      'index': 5,
     },
   ];
 
@@ -49,7 +53,6 @@ class _FoodsListState extends State<FoodsList> {
   }
 
   getFood() {
-    print(widget.foodSelected);
     for (var i = 0; i < foods.length; i++) {
       if (widget.foodSelected == foods[i]['title']) {
         isFood = foods[i]['index'] as int;
@@ -87,8 +90,6 @@ class _FoodsListState extends State<FoodsList> {
                                 f["title"] as String, f["index"] as int);
                             isFood = f["index"] as int;
                           });
-
-                          developer.log(f["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -112,6 +113,7 @@ class _FoodsListState extends State<FoodsList> {
                                       ),
                                       Text(
                                         '${f["title"]}',
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: (isFood == f["index"] as int)
                                                 ? Colors.white

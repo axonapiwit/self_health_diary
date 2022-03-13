@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:self_health_diary/models/diary.dart';
 import 'package:self_health_diary/themes/colors.dart';
 import 'package:self_health_diary/widgets/bar_chart.dart';
 import 'package:self_health_diary/widgets/line_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'dart:math';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -18,70 +17,113 @@ class StatScreen extends StatefulWidget {
   _StatScreenState createState() => _StatScreenState();
 }
 
-List<DateTime> ExcellenceDate = [
-  DateTime(2022, 03, 1),
-  DateTime(2022, 03, 3),
-  DateTime(2022, 03, 4),
-  DateTime(2022, 03, 5),
-  DateTime(2022, 03, 6),
-  DateTime(2022, 03, 9),
-  DateTime(2022, 03, 10),
-  DateTime(2022, 03, 11),
-  DateTime(2022, 03, 15),
-  DateTime(2022, 03, 22),
-  DateTime(2022, 03, 23),
-];
-List<DateTime> BadlyDate = [
-  DateTime(2022, 03, 2),
-  DateTime(2022, 03, 7),
-  DateTime(2022, 03, 8),
-  DateTime(2022, 03, 12),
-  DateTime(2022, 03, 13),
-  DateTime(2022, 03, 14),
-  DateTime(2022, 03, 16),
-  DateTime(2022, 03, 17),
-  DateTime(2022, 03, 18),
-  DateTime(2022, 03, 19),
-  DateTime(2022, 03, 20),
-];
-List<DateTime> VeryBadDate = [
-  DateTime(2022, 03, 30),
-  DateTime(2022, 03, 29),
-  DateTime(2022, 03, 29),
-];
+List<DateTime> GreatDate = [];
+List<DateTime> GoodDate = [];
+List<DateTime> MehDate = [];
+List<DateTime> BadDate = [];
+List<DateTime> AwfulDate = [];
 
 class _StatScreenState extends State<StatScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   CalendarFormat format = CalendarFormat.month;
-  DateTime selectedDay = DateTime.now();
-  DateTime focusedDay = DateTime.now();
-  List<Diary> moodsList = [
-    Diary(mood: 'Good', moodScore: 3, dateTime: DateTime.parse('2022-02-22'))
-  ];
 
-  var moodsColor = [
-    {
-      'color': Colors.green,
-      'index': 4,
-    },
-    {
-      'color': Colors.amber,
-      'index': 3,
-    },
-    {
-      'color': Colors.orangeAccent,
-      'index': 2,
-    },
-    {
-      'color': Colors.redAccent,
-      'index': 1,
-    },
-    {
-      'color': Colors.purpleAccent,
-      'index': 0,
-    },
-  ];
+  getCalendar(List allData) {
+    GreatDate.clear();
+    GoodDate.clear();
+    MehDate.clear();
+    BadDate.clear();
+    AwfulDate.clear();
+    allData.forEach((element) {
+      var day = (element['dateTime'] as Timestamp).toDate().day;
+      var month = (element['dateTime'] as Timestamp).toDate().month;
+      var year = (element['dateTime'] as Timestamp).toDate().year;
+      if (element['moodScore'] == 1) {
+        GreatDate.add(DateTime(year, month, day));
+      }
+      if (element['moodScore'] == 2) {
+        GoodDate.add(DateTime(year, month, day));
+      }
+      if (element['moodScore'] == 3) {
+        MehDate.add(DateTime(year, month, day));
+      }
+      if (element['moodScore'] == 4) {
+        BadDate.add(DateTime(year, month, day));
+      }
+      if (element['moodScore'] == 5) {
+        AwfulDate.add(DateTime(year, month, day));
+      }
+    });
 
-  static Widget _Excellence(String day) => CircleAvatar(
+    _markedDateMap.clear();
+
+    for (int i = 0; i < GreatDate.length; i++) {
+      _markedDateMap.add(
+        GreatDate[i],
+        new Event(
+          date: GreatDate[i],
+          title: 'Event 5',
+          icon: _Great(
+            GreatDate[i].day.toString(),
+          ),
+        ),
+      );
+    }
+
+    for (int i = 0; i < GoodDate.length; i++) {
+      _markedDateMap.add(
+        GoodDate[i],
+        new Event(
+          date: GoodDate[i],
+          title: 'Event 5',
+          icon: _Good(
+            GoodDate[i].day.toString(),
+          ),
+        ),
+      );
+    }
+
+    for (int i = 0; i < MehDate.length; i++) {
+      _markedDateMap.add(
+        MehDate[i],
+        new Event(
+          date: MehDate[i],
+          title: 'Event 5',
+          icon: _Meh(
+            MehDate[i].day.toString(),
+          ),
+        ),
+      );
+    }
+
+    for (int i = 0; i < BadDate.length; i++) {
+      _markedDateMap.add(
+        BadDate[i],
+        new Event(
+          date: BadDate[i],
+          title: 'Event 5',
+          icon: _Bad(
+            BadDate[i].day.toString(),
+          ),
+        ),
+      );
+    }
+
+    for (int i = 0; i < AwfulDate.length; i++) {
+      _markedDateMap.add(
+        AwfulDate[i],
+        new Event(
+          date: AwfulDate[i],
+          title: 'Event 5',
+          icon: _Awful(
+            AwfulDate[i].day.toString(),
+          ),
+        ),
+      );
+    }
+    // setState(() {});
+  }
+
+  static Widget _Great(String day) => CircleAvatar(
         backgroundColor: Colors.green,
         child: Text(
           day,
@@ -91,7 +133,27 @@ class _StatScreenState extends State<StatScreen> {
         ),
       );
 
-  static Widget _Badly(String day) => CircleAvatar(
+  static Widget _Good(String day) => CircleAvatar(
+        backgroundColor: Colors.yellow,
+        child: Text(
+          day,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
+
+  static Widget _Meh(String day) => CircleAvatar(
+        backgroundColor: Colors.orange,
+        child: Text(
+          day,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
+
+  static Widget _Bad(String day) => CircleAvatar(
         backgroundColor: Colors.red,
         child: Text(
           day,
@@ -101,7 +163,7 @@ class _StatScreenState extends State<StatScreen> {
         ),
       );
 
-  static Widget _VeryBad(String day) => CircleAvatar(
+  static Widget _Awful(String day) => CircleAvatar(
         backgroundColor: Colors.purple,
         child: Text(
           day,
@@ -116,55 +178,14 @@ class _StatScreenState extends State<StatScreen> {
   );
 
   late CalendarCarousel _calendarCarouselNoHeader;
-
-  var len = min(BadlyDate.length, ExcellenceDate.length);
-  var len2 = min(ExcellenceDate.length, VeryBadDate.length);
   late double cHeight;
+
   @override
   Widget build(BuildContext context) {
     cHeight = MediaQuery.of(context).size.height;
 
-    for (int i = 0; i < len; i++) {
-      _markedDateMap.add(
-        ExcellenceDate[i],
-        new Event(
-          date: ExcellenceDate[i],
-          title: 'Event 5',
-          icon: _Excellence(
-            ExcellenceDate[i].day.toString(),
-          ),
-        ),
-      );
-    }
-
-    for (int i = 0; i < len; i++) {
-      _markedDateMap.add(
-        BadlyDate[i],
-        new Event(
-          date: BadlyDate[i],
-          title: 'Event 5',
-          icon: _Badly(
-            BadlyDate[i].day.toString(),
-          ),
-        ),
-      );
-    }
-
-    for (int i = 0; i < len2; i++) {
-      _markedDateMap.add(
-        VeryBadDate[i],
-        new Event(
-          date: VeryBadDate[i],
-          title: 'Event 5',
-          icon: _VeryBad(
-            VeryBadDate[i].day.toString(),
-          ),
-        ),
-      );
-    }
-
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      height: cHeight * 0.54,
+      height: cHeight * 0.56,
       weekendTextStyle: TextStyle(
         color: Colors.black,
       ),
@@ -173,6 +194,7 @@ class _StatScreenState extends State<StatScreen> {
       markedDatesMap: _markedDateMap,
       markedDateShowIcon: true,
       markedDateIconMaxShown: 1,
+      locale: 'th_TH',
       markedDateMoreShowTotal:
           null, // null for not showing hidden events indicator
       markedDateIconBuilder: (event) {
@@ -184,7 +206,10 @@ class _StatScreenState extends State<StatScreen> {
       child: Scaffold(
         backgroundColor: Palette.tertiary,
         body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('diaries').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('diaries')
+              .where('createdBy', isEqualTo: user!.uid)
+              .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -192,6 +217,7 @@ class _StatScreenState extends State<StatScreen> {
                     valueColor: AlwaysStoppedAnimation<Color>(Palette.primary)),
               );
             }
+            getCalendar(snapshot.data!.docs.map((doc) => doc.data()).toList());
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -199,78 +225,24 @@ class _StatScreenState extends State<StatScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       _calendarCarouselNoHeader,
-                      markerRepresent(Colors.green, "Exellent"),
-                      markerRepresent(Colors.yellow, "Good"),
-                      markerRepresent(Colors.orange, "Medium"),
-                      markerRepresent(Colors.red, "Badly"),
-                      markerRepresent(Colors.purple, "Very Bad"),
+                      GridView.count(
+                        shrinkWrap: true,
+                        crossAxisSpacing: 0.0,
+                        mainAxisSpacing: 0.0,
+                        childAspectRatio: 4,
+                        crossAxisCount: 2,
+                        padding: EdgeInsets.zero,
+                        physics: NeverScrollableScrollPhysics(),
+                        children: [
+                          markerRepresent(Colors.green, "1 ดีมาก"),
+                          markerRepresent(Colors.yellow, "2 ดี"),
+                          markerRepresent(Colors.orange, "3 ปานกลาง"),
+                          markerRepresent(Colors.red, "4 แย่"),
+                          markerRepresent(Colors.purple, "5 แย่มาก"),
+                        ],
+                      ),
                     ],
                   ),
-                  // Container(
-                  //   padding: EdgeInsets.all(20),
-                  //   child: TableCalendar(
-                  //     firstDay: DateTime.utc(1990),
-                  //     lastDay: DateTime.utc(2050),
-                  //     focusedDay: selectedDay,
-                  //     calendarFormat: format,
-                  //     onFormatChanged: (CalendarFormat _format) {
-                  //       setState(() {
-                  //         format = _format;
-                  //       });
-                  //     },
-                  //     startingDayOfWeek: StartingDayOfWeek.sunday,
-                  //     daysOfWeekVisible: true,
-                  //     onDaySelected: (
-                  //       DateTime selectDay,
-                  //       DateTime focuseDay,
-                  //     ) {
-                  //       setState(() {
-                  //         selectedDay = selectDay;
-                  //         focusedDay = focuseDay;
-                  //       });
-                  //     },
-                  //     holidayPredicate: (day) {
-                  //       final n = [3,4];
-                  //       return n.contains(day.day);
-                  //     },
-
-                  //     selectedDayPredicate: (DateTime date) {
-                  //       // return isSameDay(selectedDay, date);
-
-                  //       final resault =
-                  //           moodsList.where((m) => isSameDay(m.dateTime, date));
-                  //       // print(resault.isNotEmpty);
-                  //       // print(date.toString());
-
-                  //       return resault.isNotEmpty;
-                  //     },
-                  //     calendarStyle: CalendarStyle(
-                  //       isTodayHighlighted: true,
-                  //       selectedDecoration: BoxDecoration(
-                  //         color: Colors.amber,
-                  //         shape: BoxShape.circle,
-                  //       ),
-                  //       selectedTextStyle: TextStyle(color: Colors.white),
-                  //       todayDecoration: BoxDecoration(
-                  //         color: Palette.primary,
-                  //         shape: BoxShape.circle,
-                  //       ),
-                  //     ),
-                  //     headerStyle: HeaderStyle(
-                  //       formatButtonVisible: true,
-                  //       titleCentered: true,
-                  //       formatButtonShowsNext: false,
-                  //       formatButtonDecoration: BoxDecoration(
-                  //         color: Palette.primary,
-                  //         borderRadius: BorderRadius.circular(5.0),
-                  //       ),
-                  //       formatButtonTextStyle: TextStyle(
-                  //         color: Colors.white,
-                  //       ),
-                  //     ),
-                  //     // eventLoader: ,
-                  //   ),
-                  // ),
                   SizedBox(height: 20),
                   Center(
                     child: LineChartOne(),
@@ -278,7 +250,24 @@ class _StatScreenState extends State<StatScreen> {
                   SizedBox(height: 20),
                   Center(
                     child: BarChartOne(),
-                  )
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                      child: Column(
+                    children: <Widget>[
+                      Text(
+                        'เกณฑ์วัดอารมณ์',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      barChartDescript("assets/icons/5.png",
+                          "28 - 35 คะแนน มีความเครียดสูง"),
+                      barChartDescript("assets/icons/4.png",
+                          "21 - 27 คะแนน สงสัยว่ามีความเครียด"),
+                      barChartDescript(
+                          "assets/icons/1.png", "1 - 20 คะแนน ไม่มีความเครียด"),
+                    ],
+                  )),
+                  SizedBox(height: 25),
                 ],
               ),
             );
@@ -296,6 +285,25 @@ class _StatScreenState extends State<StatScreen> {
       ),
       title: new Text(
         data,
+      ),
+    );
+  }
+
+  Widget barChartDescript(String img, String data) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Image.asset(
+            img,
+            height: 35,
+          ),
+          SizedBox(width: 20),
+          Text(
+            data,
+            style: TextStyle(fontSize: 16),
+          )
+        ],
       ),
     );
   }

@@ -5,3 +5,5 @@ class Utils {
   static formatDate(DateTime date) => DateFormat.yMd().format(date);
   static formatTime(DateTime time) => DateFormat('HH:mm').format(time);
 }
+
+

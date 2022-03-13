@@ -91,7 +91,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Create Account',
+                                'ยืนยันบัญชีผู้ใช้',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontSize: 30,
@@ -100,7 +100,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                               ),
                               SizedBox(height: 10),
                               Text(
-                                'PLease fill the input blow here.',
+                                'กรุณากรอกข้อมูลให้ครบถ้วน',
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.black),
                               ),
@@ -130,7 +130,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                   decoration: InputDecoration(
                                       icon: Icon(Icons.rtt_rounded,
                                           color: Colors.black),
-                                      hintText: "Your First Name",
+                                      hintText: "ชื่อ",
                                       hintStyle: TextStyle(color: Colors.black),
                                       border: InputBorder.none),
                                   onChanged: (String fname) {
@@ -152,7 +152,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                   decoration: InputDecoration(
                                       icon: Icon(Icons.rtt_rounded,
                                           color: Colors.black),
-                                      hintText: "Your Last Name",
+                                      hintText: "นามสกุล",
                                       hintStyle: TextStyle(color: Colors.black),
                                       border: InputBorder.none),
                                   onChanged: (String lname) {
@@ -179,12 +179,12 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                       decoration: InputDecoration(
                                           icon: Icon(Icons.rtt_rounded,
                                               color: Colors.black),
-                                          hintText: "Height",
+                                          hintText: "ส่วนสูง",
                                           hintStyle:
                                               TextStyle(color: Colors.black),
                                           border: InputBorder.none),
                                       onChanged: (String height) {
-                                        validateUser.height = int.parse(height);
+                                        validateUser.height = double.parse(height);
                                       },
                                     ),
                                   ),
@@ -204,12 +204,12 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                       decoration: InputDecoration(
                                           icon: Icon(Icons.rtt_rounded,
                                               color: Colors.black),
-                                          hintText: "Weight",
+                                          hintText: "น้ำหนัก",
                                           hintStyle:
                                               TextStyle(color: Colors.black),
                                           border: InputBorder.none),
                                       onChanged: (String weight) {
-                                        validateUser.weight = int.parse(weight);
+                                        validateUser.weight = double.parse(weight);
                                       },
                                     ),
                                   ),
@@ -217,11 +217,10 @@ class _ValidationScreenState extends State<ValidationScreen> {
                               ),
                               RadioGroup(
                                 options: [
-                                  RadioOption(label: 'Male', value: 'Male'),
-                                  RadioOption(label: 'Female', value: 'Female'),
+                                  RadioOption(label: 'ชาย', value: 'ชาย'),
+                                  RadioOption(label: 'หญิง', value: 'หญิง'),
                                 ],
                                 onChange: (value) {
-                                  print(value);
                                   setState(() {
                                     validateUser.gender = value;
                                   });
@@ -287,9 +286,6 @@ class _ValidationScreenState extends State<ValidationScreen> {
               ),
               onTap: () {
                 addUser();
-                print(validateUser.fname);
-                print(validateUser.height);
-                print(validateUser.weight);
               },
             ),
           ],

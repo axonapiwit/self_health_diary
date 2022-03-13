@@ -5,7 +5,7 @@ class Diary {
   late String food;
   late String water;
   late String exercise;
-  late String? note;
+  late String note;
   late int moodScore;
   late dynamic dateTime;
   late bool status;
@@ -24,7 +24,6 @@ class Diary {
   });
 
   factory Diary.fromJson(dynamic json) {
-    // print(json['dateTime'].toDate());
     return Diary(
       id: json['id'] ?? '',
       mood: json['mood'] ?? '',
@@ -32,7 +31,7 @@ class Diary {
       food: json['food'] ?? '',
       water: json['water'] ?? '',
       exercise: json['exercise'] ?? '',
-      // note: json['note'] ?? '',
+      note: json['note'] ?? '',
       moodScore: json['moodScore'] ?? 0,
       dateTime: json['dateTime'].toDate(),
       status: json['status'] ?? true,

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class NotePad extends StatefulWidget {
-  const NotePad({Key? key}) : super(key: key);
+  const NotePad({Key? key, this.controller}) : super(key: key);
+  final TextEditingController? controller;
 
   @override
   _NotePadState createState() => _NotePadState();
@@ -28,6 +29,7 @@ class _NotePadState extends State<NotePad> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: TextField(
+            controller: widget.controller,
             minLines:
                 3, // any number you need (It works as the rows for the textarea)
             keyboardType: TextInputType.multiline,

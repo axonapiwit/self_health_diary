@@ -1,9 +1,10 @@
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 class ExerciseList extends StatefulWidget {
-  const ExerciseList({Key? key, required this.onChange, this.exerciseSelected = ''}) : super(key: key);
+  const ExerciseList(
+      {Key? key, required this.onChange, this.exerciseSelected = ''})
+      : super(key: key);
 
   final void Function(String, int) onChange;
   final String exerciseSelected;
@@ -15,24 +16,29 @@ class ExerciseList extends StatefulWidget {
 class _ExerciseListState extends State<ExerciseList> {
   var exercises = [
     {
-      'imgName': 'assets/icons/dumbbell.png',
-      'title': '60 Min',
+      'imgName': 'assets/icons/60min.png',
+      'title': '60 นาที',
       'index': 0,
     },
     {
-      'imgName': 'assets/icons/shoes.png',
-      'title': '30 Min',
+      'imgName': 'assets/icons/30min.png',
+      'title': '30 นาที',
       'index': 1,
     },
     {
-      'imgName': 'assets/icons/sneakers.png',
-      'title': '15 Min',
+      'imgName': 'assets/icons/15min.png',
+      'title': '15 นาที',
       'index': 2,
     },
     {
-      'imgName': 'assets/icons/obesity.png',
-      'title': "No Exercise",
+      'imgName': 'assets/icons/10min.png',
+      'title': '10 นาที',
       'index': 3,
+    },
+    {
+      'imgName': 'assets/icons/obesity.png',
+      'title': "ไม่ออกกำลังกาย",
+      'index': 4,
     },
   ];
 
@@ -43,7 +49,6 @@ class _ExerciseListState extends State<ExerciseList> {
   }
 
   getExercise() {
-    print(widget.exerciseSelected);
     for (var i = 0; i < exercises.length; i++) {
       if (widget.exerciseSelected == exercises[i]['title']) {
         isExercise = exercises[i]['index'] as int;
@@ -82,7 +87,6 @@ class _ExerciseListState extends State<ExerciseList> {
                             isExercise = e["index"] as int;
                           });
 
-                          developer.log(e["index"].toString());
                         },
                         child: Row(
                           children: [
@@ -106,6 +110,7 @@ class _ExerciseListState extends State<ExerciseList> {
                                       ),
                                       Text(
                                         '${e["title"]}',
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: (isExercise ==
                                                     e["index"] as int)

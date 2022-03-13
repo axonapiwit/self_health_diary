@@ -21,9 +21,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: 100),
                 Container(
                   child: Text(
-                    "SignUp and SignIn",
+                    "สมัครและเข้าสู่ระบบ",
                     style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -65,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                             ),
                             Text(
-                              'Continue with Google',
+                              'เข้าสู่ระบบด้วย Google',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
@@ -101,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                             ),
                             Text(
-                              'Continue with Email',
+                              'เข้าสู่ระบบด้วย Email',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
