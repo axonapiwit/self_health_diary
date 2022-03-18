@@ -50,7 +50,10 @@ class _BarChartOneState extends State<BarChartOne> {
         final __date =
             (json[j]["dateTime"].toDate() as DateTime).difference(_date).inDays;
         // range in week
-        if (__date < 7 && __date >= 0) {
+        if (__date < 6 && __date >= 0) {
+          print(json[j]["dateTime"].toDate());
+          print(_date);
+          print(__date);
           weekMap[_date]!.add(json[j]);
         }
       }

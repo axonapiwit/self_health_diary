@@ -93,49 +93,48 @@ class _LineChartOneState extends State<LineChartOne> {
             ],
           ),
         ),
-        // Positioned(
-        //     bottom: 75,
-        //     left: 14,
-        //     child: Column(
-        //       children: [
-        //         Container(
-        //           padding: EdgeInsets.symmetric(vertical: 4),
-        //           child: Image.asset(
-        //             'assets/icons/5.png',
-        //             width: 30,
-        //           ),
-        //         ),
-        //         Container(
-        //           padding: EdgeInsets.symmetric(vertical: 4),
-        //           child: Image.asset(
-        //             'assets/icons/4.png',
-        //             width: 30,
-        //           ),
-        //         ),
-        //         Container(
-        //           padding: EdgeInsets.symmetric(vertical: 4),
-        //           child: Image.asset(
-        //             'assets/icons/3.png',
-        //             width: 30,
-        //           ),
-        //         ),
-        //         Container(
-        //           padding: EdgeInsets.symmetric(vertical: 4),
-        //           child: Image.asset(
-        //             'assets/icons/2.png',
-        //             width: 30,
-        //           ),
-        //         ),
-        //         Container(
-        //           padding: EdgeInsets.symmetric(vertical: 4),
-        //           child: Image.asset(
-        //             'assets/icons/1.png',
-        //             width: 30,
-        //           ),
-        //         ),
-        //       ],
-        //     )),
-      
+        Positioned(
+            bottom: 75,
+            left: 14,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset(
+                    'assets/icons/5.png',
+                    width: 30,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset(
+                    'assets/icons/4.png',
+                    width: 30,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset(
+                    'assets/icons/3.png',
+                    width: 30,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset(
+                    'assets/icons/2.png',
+                    width: 30,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Image.asset(
+                    'assets/icons/1.png',
+                    width: 30,
+                  ),
+                ),
+              ],
+            )),
       ],
     );
   }
@@ -173,12 +172,9 @@ class _LineChartOneState extends State<LineChartOne> {
             }),
         leftTitles: SideTitles(
           showTitles: true,
-          // getTextStyles: (context, value) =>
-          // TextStyle(color: Colors.transparent),
-          // TextStyle(color: Colors.black),
+          getTextStyles: (context, value) =>
+              TextStyle(color: Colors.transparent),
           margin: 8,
-
-          // Image.asset('/assets/icons/1.png'),
           reservedSize: 30,
         ),
         rightTitles: SideTitles(

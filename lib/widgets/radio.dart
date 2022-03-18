@@ -62,12 +62,10 @@ class _RadioGroupState extends State<RadioGroup> {
       children: [
         widget.labelText != null
             ? Padding(
-                padding: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
                   widget.labelText!,
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.black),
                 ),
               )
             : SizedBox(),

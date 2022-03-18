@@ -64,7 +64,7 @@ class _SleepsListState extends State<SleepsList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Sleep',
+            'การพักผ่อน',
             style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
           ),

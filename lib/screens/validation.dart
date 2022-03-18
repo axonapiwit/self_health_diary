@@ -7,6 +7,7 @@ import 'package:self_health_diary/screens/navbar.dart';
 import 'package:self_health_diary/services/authentication_service.dart';
 import 'package:self_health_diary/themes/colors.dart';
 import 'package:self_health_diary/widgets/radio.dart';
+import 'package:self_health_diary/widgets/textfield_input.dart';
 
 class ValidationScreen extends StatefulWidget {
   const ValidationScreen({Key? key}) : super(key: key);
@@ -17,13 +18,20 @@ class ValidationScreen extends StatefulWidget {
 
 class _ValidationScreenState extends State<ValidationScreen> {
   Profile validateUser = Profile();
+  final _fnameController = TextEditingController();
+  final _lnameController = TextEditingController();
+  final _weightController = TextEditingController();
+  final _heightController = TextEditingController();
+
+  bool _validateFname = false;
+  bool _validateLname = false;
+  bool _validateWeight = false;
+  bool _validateHeight = false;
 
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     String role = 'user';
-    // final TextEditingController firstNameController = TextEditingController();
-    // final TextEditingController lastNameController = TextEditingController();
 
     Future addUser() async {
       await FirebaseFirestore.instance
@@ -31,8 +39,6 @@ class _ValidationScreenState extends State<ValidationScreen> {
           .doc(user!.uid)
           .update({
         'role': role,
-        // 'fname': firstNameController.text,
-        // 'lname': lastNameController.text,
         'fname': validateUser.fname,
         'lname': validateUser.lname,
         'height': validateUser.height,
@@ -105,113 +111,99 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                     fontSize: 16, color: Colors.black),
                               ),
                               SizedBox(height: 10),
-                              // IconTextInput(
-                              //     controller: firstNameController,
-                              //     hint: 'First Name',
-                              //     icon: 'person',
-                              //     obscureText: false),
-                              // SizedBox(height: 10),
-                              // IconTextInput(
-                              //     controller: lastNameController,
-                              //     hint: 'Last Name',
-                              //     icon: 'person',
-                              //     obscureText: false),
-                              // SizedBox(height: 30),
-                              Container(
+                              TextfieldInput(
                                 width: MediaQuery.of(context).size.width * 0.8,
-                                margin: EdgeInsets.symmetric(vertical: 20),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 5),
-                                decoration: BoxDecoration(
-                                    color: Palette.secondary,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(29))),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                      icon: Icon(Icons.rtt_rounded,
-                                          color: Colors.black),
-                                      hintText: "ชื่อ",
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      border: InputBorder.none),
-                                  onChanged: (String fname) {
-                                    validateUser.fname = fname;
-                                  },
-                                ),
+                                labelText: 'ชื่อ',
+                                validate:
+                                    _validateFname ? 'กรุณากรอกชื่อ' : null,
+                                controller: _fnameController,
+                                onChanged: (String fname) {
+                                  validateUser.fname = fname;
+                                },
                               ),
-                              SizedBox(height: 10),
-                              Container(
+                              SizedBox(height: 5),
+                              TextfieldInput(
                                 width: MediaQuery.of(context).size.width * 0.8,
-                                margin: EdgeInsets.symmetric(vertical: 20),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 5),
-                                decoration: BoxDecoration(
-                                    color: Palette.secondary,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(29))),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                      icon: Icon(Icons.rtt_rounded,
-                                          color: Colors.black),
-                                      hintText: "นามสกุล",
-                                      hintStyle: TextStyle(color: Colors.black),
-                                      border: InputBorder.none),
-                                  onChanged: (String lname) {
-                                    validateUser.lname = lname;
-                                  },
-                                ),
+                                labelText: 'นามสกุล',
+                                validate:
+                                    _validateLname ? 'กรุณากรอกนามสกุล' : null,
+                                controller: _lnameController,
+                                onChanged: (String lname) {
+                                  validateUser.lname = lname;
+                                },
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
+                                  TextfieldInput(
                                     width: MediaQuery.of(context).size.width *
                                         0.35,
-                                    margin: EdgeInsets.symmetric(vertical: 20),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: Palette.secondary,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(29))),
-                                    child: TextField(
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                          icon: Icon(Icons.rtt_rounded,
-                                              color: Colors.black),
-                                          hintText: "ส่วนสูง",
-                                          hintStyle:
-                                              TextStyle(color: Colors.black),
-                                          border: InputBorder.none),
-                                      onChanged: (String height) {
-                                        validateUser.height = double.parse(height);
-                                      },
+                                    labelText: 'ส่วนสูง',
+                                    validate: _validateHeight
+                                        ? 'กรุณากรอกส่วนสูง'
+                                        : null,
+                                    controller: _heightController,
+                                    suffix: Container(
+                                      decoration: BoxDecoration(
+                                        color: Palette.primary,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      padding: EdgeInsets.all(2),
+                                      child: Text(
+                                        'เซนติเมตร',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (String height) {
+                                      validateUser.height = height.length != 0
+                                          ? height != '0'
+                                              ? double.parse(height)
+                                              : 0.0
+                                          : 0.0;
+                                    },
                                   ),
-                                  SizedBox(width: 10),
-                                  Container(
+                                  SizedBox(width: 5),
+                                  TextfieldInput(
                                     width: MediaQuery.of(context).size.width *
                                         0.35,
-                                    margin: EdgeInsets.symmetric(vertical: 20),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        color: Palette.secondary,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(29))),
-                                    child: TextField(
-                                      keyboardType: TextInputType.number,
-                                      decoration: InputDecoration(
-                                          icon: Icon(Icons.rtt_rounded,
-                                              color: Colors.black),
-                                          hintText: "น้ำหนัก",
-                                          hintStyle:
-                                              TextStyle(color: Colors.black),
-                                          border: InputBorder.none),
-                                      onChanged: (String weight) {
-                                        validateUser.weight = double.parse(weight);
-                                      },
+                                    labelText: 'น้ำหนัก',
+                                    validate: _validateWeight
+                                        ? 'กรุณากรอกน้ำหนัก'
+                                        : null,
+                                    controller: _weightController,
+                                    suffix: Container(
+                                      decoration: BoxDecoration(
+                                        color: Palette.primary,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      padding: EdgeInsets.all(2),
+                                      child: Text(
+                                        'กิโลกรัม',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (String weight) {
+                                      validateUser.weight = weight.length != 0
+                                          ? weight != '0'
+                                              ? double.parse(weight)
+                                              : 0.0
+                                          : 0.0;
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'เพศกำเนิด',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
                                   ),
                                 ],
                               ),
@@ -233,30 +225,6 @@ class _ValidationScreenState extends State<ValidationScreen> {
                       ],
                     ),
                   ),
-                  // Container(
-                  //   margin: EdgeInsets.only(bottom: 20),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       Text(
-                  //         "Already have a account?",
-                  //         style: TextStyle(color: Colors.white),
-                  //       ),
-                  //       TextButton(
-                  //         onPressed: () {
-                  //           Navigator.pop(context);
-                  //         },
-                  //         style: ButtonStyle(
-                  //           splashFactory: NoSplash.splashFactory,
-                  //         ),
-                  //         child: Text(
-                  //           'Sign in',
-                  //           style: TextStyle(color: Colors.yellow),
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -276,7 +244,7 @@ class _ValidationScreenState extends State<ValidationScreen> {
                     ]),
                 child: Center(
                   child: Text(
-                    'Submit',
+                    'บันทึก',
                     style: TextStyle(
                         color: Colors.pink.shade300,
                         fontSize: 24,
@@ -285,7 +253,31 @@ class _ValidationScreenState extends State<ValidationScreen> {
                 ),
               ),
               onTap: () {
-                addUser();
+                setState(() {
+                  bool isPass = true;
+                  if (_fnameController.text.isEmpty) {
+                    isPass = false;
+                    _validateFname = true;
+                  }
+                  if (_lnameController.text.isEmpty) {
+                    isPass = false;
+                    _validateLname = true;
+                  }
+                  if (_heightController.text.isEmpty) {
+                    isPass = false;
+                    _validateHeight = true;
+                  }
+                  if (_weightController.text.isEmpty) {
+                    isPass = false;
+                    _validateWeight = true;
+                  }
+                  if (isPass) {
+                    addUser();
+                  }
+                });
+                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                //   content: Text("Sending Message"),
+                // ));
               },
             ),
           ],

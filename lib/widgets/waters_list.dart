@@ -59,7 +59,7 @@ class _SleepsListState extends State<WatersList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Water',
+            'ดื่มน้ำ',
             style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
           ),

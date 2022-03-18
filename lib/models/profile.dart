@@ -11,8 +11,8 @@ class Profile {
     this.lname = '',
     this.gender = '',
     this.role = '',
-    this.weight = 0.0,
-    this.height = 0.0,
+    this.weight = 0,
+    this.height = 0,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {

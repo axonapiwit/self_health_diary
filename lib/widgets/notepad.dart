@@ -15,7 +15,7 @@ class _NotePadState extends State<NotePad> {
     return Container(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
-          'Note',
+          'รายละเอียด',
           style: TextStyle(
               fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
         ),
@@ -35,7 +35,7 @@ class _NotePadState extends State<NotePad> {
             keyboardType: TextInputType.multiline,
             maxLines: null,
             decoration: InputDecoration(
-              hintText: 'What are you doing in day',
+              hintText: 'วันนี้คุณทำอะไรมาบ้าง',
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent),
               ),

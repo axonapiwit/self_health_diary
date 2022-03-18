@@ -64,7 +64,7 @@ class _MoodsListState extends State<MoodsList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'How are you today!',
+            'วันนี้คุณเป็นอย่างไรบ้าง',
             style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
           ),

@@ -65,7 +65,7 @@ class _ExerciseListState extends State<ExerciseList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Exercise',
+            'การออกกำลังกาย',
             style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
           ),

@@ -15,7 +15,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-
+  late List _data;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -68,18 +68,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ],
                                       ),
                                       onPressed: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //       builder: (context) => EditProfile(
-                                        //             uid: data[0]['uid'],
-                                        //             fname: data[0]['fname'],
-                                        //             lname: data[0]['lname'],
-                                        //             gender: data[0]['gender'],
-                                        //             weight: data[0]['weight'],
-                                        //             note: diary.note,
-                                        //           )),
-                                        // );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => EditProfile(
+                                                    fname: _data[0]['fname'],
+                                                    lname: _data[0]['lname'],
+                                                    gender: _data[0]['gender'],
+                                                    weight: (_data[0]['weight']).toString()
+                                                  )),
+                                        );
                                       }),
                                   TextButton(
                                     child: Row(
@@ -124,16 +122,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   List data =
                       snapshot.data!.docs.map((doc) => doc.data()).toList();
 
-                  // BMI
-                  double? _bmi;
+                  _data = data;
 
+                  // BMI
                   String _message = '';
 
-                  final double? height = data[0]['height']!.toDouble() / 100;
-                  final double? weight = data[0]['weight']!.toDouble();
+                  final double? height = data[0]['height']! / 100;
+                  final double? weight = data[0]['weight'];
+
+                  double _bmi;
 
                   _bmi = double.parse(
-                      (weight! / (height! * height)).toStringAsFixed(2));
+                      (weight! / (height! * height))
+                          .toStringAsFixed(2));
                   if (_bmi < 18.5) {
                     _message = "น้ำหนักน้อยกว่ามาตรฐาน";
                   } else if ((_bmi > 18.4) && (_bmi < 23)) {

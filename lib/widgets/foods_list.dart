@@ -69,7 +69,7 @@ class _FoodsListState extends State<FoodsList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Food',
+            'มื้ออาหาร',
             style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
           ),

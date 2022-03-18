@@ -94,7 +94,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       diary.mood = title;
                       diary.moodScore = index;
                     });
-                 
                   }),
                   SizedBox(
                     height: 20,
@@ -103,7 +102,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.sleep = title;
                     });
-                
                   }),
                   SizedBox(
                     height: 20,
@@ -112,7 +110,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.food = title;
                     });
-              
                   }),
                   SizedBox(
                     height: 20,
@@ -121,7 +118,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.water = title;
                     });
-       
                   }),
                   SizedBox(
                     height: 20,
@@ -130,7 +126,6 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     setState(() {
                       diary.exercise = title;
                     });
-              
                   }),
                   SizedBox(
                     height: 20,
@@ -148,14 +143,32 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     ),
                     child: TextButton(
                       child: Text(
-                        'Save',
+                        'บันทึก',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                       onPressed: () {
                         setState(() {
-                          diary.dateTime;
+                          bool isPass = true;
+                          if (diary.mood == '') {
+                            isPass = false;
+                          }
+                          if (diary.sleep == '') {
+                            isPass = false;
+                          }
+                          if (diary.food == '') {
+                            isPass = false;
+                          }
+                          if (diary.water == '') {
+                            isPass = false;
+                          }
+                          if (diary.exercise == '') {
+                            isPass = false;
+                          }
+                          if (isPass) {
+                            diary.dateTime = DateTime.now();
+                            addDiary();
+                          }
                         });
-                        addDiary();
                       },
                     ),
                   )
