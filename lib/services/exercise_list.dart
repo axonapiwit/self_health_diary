@@ -16,29 +16,34 @@ class ExerciseList extends StatefulWidget {
 class _ExerciseListState extends State<ExerciseList> {
   var exercises = [
     {
+      'imgName': 'assets/icons/1hoursUp.png',
+      'title': '60 นาทีขึ้นไป',
+      'index': 0,
+    },
+    {
       'imgName': 'assets/icons/60min.png',
       'title': '60 นาที',
-      'index': 0,
+      'index': 1,
     },
     {
       'imgName': 'assets/icons/30min.png',
       'title': '30 นาที',
-      'index': 1,
+      'index': 2,
     },
     {
       'imgName': 'assets/icons/15min.png',
       'title': '15 นาที',
-      'index': 2,
+      'index': 3,
     },
     {
       'imgName': 'assets/icons/10min.png',
       'title': '10 นาที',
-      'index': 3,
+      'index': 4,
     },
     {
       'imgName': 'assets/icons/obesity.png',
       'title': "ไม่ออกกำลังกาย",
-      'index': 4,
+      'index': 5,
     },
   ];
 

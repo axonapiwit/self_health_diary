@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/models/diary.dart';
-import 'package:self_health_diary/widgets/exercise_list.dart';
-import 'package:self_health_diary/widgets/foods_list.dart';
-import 'package:self_health_diary/widgets/moods_list.dart';
-import 'package:self_health_diary/widgets/notepad.dart';
-import 'package:self_health_diary/widgets/sleeps_list.dart';
-import 'package:self_health_diary/widgets/waters_list.dart';
+import 'package:self_health_diary/services/exercise_list.dart';
+import 'package:self_health_diary/services/foods_list.dart';
+import 'package:self_health_diary/services/moods_list.dart';
+import 'package:self_health_diary/services/notepad.dart';
+import 'package:self_health_diary/services/sleeps_list.dart';
+import 'package:self_health_diary/services/waters_list.dart';
 import 'package:self_health_diary/themes/colors.dart';
 import 'package:uuid/uuid.dart';
 

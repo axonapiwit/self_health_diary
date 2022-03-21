@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/models/profile.dart';
 import 'package:self_health_diary/themes/colors.dart';
-import 'package:self_health_diary/widgets/radio.dart';
+import 'package:self_health_diary/services/radio.dart';
 import 'package:self_health_diary/widgets/textfield_input.dart';
 
 class EditProfile extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:self_health_diary/themes/colors.dart';
-import 'package:self_health_diary/widgets/bar_chart.dart';
-import 'package:self_health_diary/widgets/line_chart.dart';
+import 'package:self_health_diary/services/bar_chart.dart';
+import 'package:self_health_diary/services/line_chart.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;

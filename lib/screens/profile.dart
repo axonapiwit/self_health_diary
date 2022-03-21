@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:self_health_diary/themes/colors.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:self_health_diary/widgets/edit_profile.dart';
+import 'package:self_health_diary/services/edit_profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

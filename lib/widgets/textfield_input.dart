@@ -30,9 +30,6 @@ class _TextfieldInputState extends State<TextfieldInput> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SizedBox(
-          height: 20,
-        ),
         Container(
           width: widget.width,
           margin: EdgeInsets.symmetric(vertical: 20),

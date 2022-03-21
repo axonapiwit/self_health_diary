@@ -27,7 +27,7 @@ class _BarChartOneState extends State<BarChartOne> {
         .collection('diaries')
         .where('createdBy', isEqualTo: user!.uid)
         .orderBy('dateTime')
-        .where("dateTime", isGreaterThan: sunday)
+        .where("dateTime", isGreaterThan: DateTime(sunday.year, sunday.month, sunday.day))
         .get();
 
     // key = Start of week day, values = list
@@ -50,11 +50,14 @@ class _BarChartOneState extends State<BarChartOne> {
         final __date =
             (json[j]["dateTime"].toDate() as DateTime).difference(_date).inDays;
         // range in week
+        print(json[j]["dateTime"].toDate());
+        print(_date);
+        print(__date);
+        print('-----');
+        print('Sun${sunday}');
         if (__date < 6 && __date >= 0) {
-          print(json[j]["dateTime"].toDate());
-          print(_date);
-          print(__date);
           weekMap[_date]!.add(json[j]);
+          
         }
       }
     }
@@ -111,7 +114,7 @@ class _BarChartOneState extends State<BarChartOne> {
         ),
       ),
       Positioned(
-          bottom: 50,
+          bottom: 52,
           left: 14,
           child: Column(
             children: [
@@ -130,7 +133,7 @@ class _BarChartOneState extends State<BarChartOne> {
                   width: 30,
                 ),
               ),
-              SizedBox(height: 38),
+              SizedBox(height: 50),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Image.asset(

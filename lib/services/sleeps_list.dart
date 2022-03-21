@@ -15,17 +15,17 @@ class SleepsList extends StatefulWidget {
 class _SleepsListState extends State<SleepsList> {
   var sleeps = [
     {
-      'imgName': 'assets/icons/sleeping0.png',
+      'imgName': 'assets/icons/sleep.png',
       'title': '8 ชม. ขึ้นไป',
       'index': 0,
     },
     {
-      'imgName': 'assets/icons/sleeping0.png',
+      'imgName': 'assets/icons/sleep3.png',
       'title': '7-8 ชม.',
       'index': 1,
     },
     {
-      'imgName': 'assets/icons/sleeping1.png',
+      'imgName': 'assets/icons/sleep2.png',
       'title': '5-6 ชม.',
       'index': 2,
     },

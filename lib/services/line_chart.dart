@@ -105,6 +105,7 @@ class _LineChartOneState extends State<LineChartOne> {
                     width: 30,
                   ),
                 ),
+                SizedBox(height: 10),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Image.asset(
@@ -112,6 +113,7 @@ class _LineChartOneState extends State<LineChartOne> {
                     width: 30,
                   ),
                 ),
+                SizedBox(height: 5),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Image.asset(
@@ -119,6 +121,7 @@ class _LineChartOneState extends State<LineChartOne> {
                     width: 30,
                   ),
                 ),
+                SizedBox(height: 5),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Image.asset(
@@ -126,6 +129,7 @@ class _LineChartOneState extends State<LineChartOne> {
                     width: 30,
                   ),
                 ),
+                SizedBox(height: 5),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Image.asset(
@@ -133,6 +137,7 @@ class _LineChartOneState extends State<LineChartOne> {
                     width: 30,
                   ),
                 ),
+                SizedBox(height: 5),
               ],
             )),
       ],

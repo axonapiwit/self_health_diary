@@ -5,8 +5,9 @@ import 'package:provider/src/provider.dart';
 import 'package:self_health_diary/models/profile.dart';
 import 'package:self_health_diary/screens/navbar.dart';
 import 'package:self_health_diary/services/authentication_service.dart';
+import 'package:self_health_diary/services/radio.dart';
 import 'package:self_health_diary/themes/colors.dart';
-import 'package:self_health_diary/widgets/radio.dart';
+
 import 'package:self_health_diary/widgets/textfield_input.dart';
 
 class ValidationScreen extends StatefulWidget {
@@ -110,7 +111,6 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.black),
                               ),
-                              SizedBox(height: 10),
                               TextfieldInput(
                                 width: MediaQuery.of(context).size.width * 0.8,
                                 labelText: 'ชื่อ',
@@ -121,7 +121,6 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                   validateUser.fname = fname;
                                 },
                               ),
-                              SizedBox(height: 5),
                               TextfieldInput(
                                 width: MediaQuery.of(context).size.width * 0.8,
                                 labelText: 'นามสกุล',
@@ -132,9 +131,9 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                   validateUser.lname = lname;
                                 },
                               ),
-                              SizedBox(height: 5),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   TextfieldInput(
                                     width: MediaQuery.of(context).size.width *
@@ -164,7 +163,6 @@ class _ValidationScreenState extends State<ValidationScreen> {
                                           : 0.0;
                                     },
                                   ),
-                                  SizedBox(width: 5),
                                   TextfieldInput(
                                     width: MediaQuery.of(context).size.width *
                                         0.35,
@@ -238,15 +236,13 @@ class _ValidationScreenState extends State<ValidationScreen> {
                 height: 60,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
-                    boxShadow: [
-                      BoxShadow(color: Colors.white, spreadRadius: 2)
-                    ]),
+                  color: Palette.primary,
+                ),
                 child: Center(
                   child: Text(
                     'บันทึก',
                     style: TextStyle(
-                        color: Colors.pink.shade300,
+                        color: Colors.white,
                         fontSize: 24,
                         fontWeight: FontWeight.bold),
                   ),
