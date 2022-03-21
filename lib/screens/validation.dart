@@ -5,7 +5,7 @@ import 'package:provider/src/provider.dart';
 import 'package:self_health_diary/models/profile.dart';
 import 'package:self_health_diary/screens/navbar.dart';
 import 'package:self_health_diary/services/authentication_service.dart';
-import 'package:self_health_diary/services/radio.dart';
+import 'package:self_health_diary/apis/radio.dart';
 import 'package:self_health_diary/themes/colors.dart';
 
 import 'package:self_health_diary/widgets/textfield_input.dart';
