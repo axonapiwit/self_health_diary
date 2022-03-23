@@ -30,7 +30,7 @@ class _SleepsListState extends State<SleepsList> {
       'index': 2,
     },
     {
-      'imgName': 'assets/icons/sleeping2.png',
+      'imgName': 'assets/icons/sleep4.png',
       'title': '3-4 ชม.',
       'index': 3,
     },

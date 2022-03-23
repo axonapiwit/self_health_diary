@@ -25,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 backgroundColor: Palette.tertiary,
                 elevation: 0,
                 title: const Text(
-                  'โปรไฟล์',
+                  'ข้อมูลผู้ใช้',
                   style: TextStyle(
                       color: Palette.primary,
                       fontSize: 28,

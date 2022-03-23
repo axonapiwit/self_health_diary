@@ -185,7 +185,7 @@ class _StatScreenState extends State<StatScreen> {
     cHeight = MediaQuery.of(context).size.height;
 
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
-      height: cHeight * 0.56,
+      height: cHeight * 0.60,
       weekendTextStyle: TextStyle(
         color: Colors.black,
       ),
@@ -259,12 +259,14 @@ class _StatScreenState extends State<StatScreen> {
                         'เกณฑ์วัดอารมณ์',
                         style: TextStyle(fontSize: 20),
                       ),
-                      barChartDescript("assets/icons/5.png",
-                          "28 - 35 คะแนน มีความเครียดสูง"),
-                      barChartDescript("assets/icons/4.png",
-                          "21 - 27 คะแนน สงสัยว่ามีความเครียด"),
+                      barChartDescript("assets/icons/9.png",
+                          "28 - 35 คะแนน มีความเครียดสูง คุณควรระมัดระวังตัวและควรไปพบแพทย์โดยด่วน"),
+                      SizedBox(height: 10),
+                      barChartDescript("assets/icons/8.png",
+                          "21 - 27 คะแนน สงสัยว่ามีความเครียด คุณควรเริ่มประเมินแบบสอบถาม"),
+                      SizedBox(height: 10),
                       barChartDescript(
-                          "assets/icons/1.png", "1 - 20 คะแนน ไม่มีความเครียด"),
+                          "assets/icons/7.png", "1 - 20 คะแนน ไม่มีความเครียด"),
                     ],
                   )),
                   SizedBox(height: 25),
@@ -299,9 +301,11 @@ class _StatScreenState extends State<StatScreen> {
             height: 35,
           ),
           SizedBox(width: 20),
-          Text(
-            data,
-            style: TextStyle(fontSize: 16),
+          Flexible(
+            child: Text(
+              data,
+              style: TextStyle(fontSize: 16),
+            ),
           )
         ],
       ),

@@ -121,7 +121,7 @@ class _BarChartOneState extends State<BarChartOne> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Image.asset(
-                  'assets/icons/5.png',
+                  'assets/icons/9.png',
                   width: 30,
                 ),
               ),
@@ -129,7 +129,7 @@ class _BarChartOneState extends State<BarChartOne> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Image.asset(
-                  'assets/icons/4.png',
+                  'assets/icons/8.png',
                   width: 30,
                 ),
               ),
@@ -137,7 +137,7 @@ class _BarChartOneState extends State<BarChartOne> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 child: Image.asset(
-                  'assets/icons/1.png',
+                  'assets/icons/7.png',
                   width: 30,
                 ),
               ),

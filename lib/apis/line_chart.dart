@@ -74,7 +74,7 @@ class _LineChartOneState extends State<LineChartOne> {
                 height: 20,
               ),
               Text(
-                'กราฟแสดงอารมณ์ใน 1 สัปดาห์',
+                'กราฟแสดงอารมณ์ใน 7 วันล่าสุด',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,

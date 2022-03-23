@@ -4,6 +4,7 @@ import 'package:provider/src/provider.dart';
 import 'package:self_health_diary/services/authentication_service.dart';
 import 'package:self_health_diary/themes/colors.dart';
 import 'package:self_health_diary/apis/excel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,6 +46,16 @@ class _MenuScreenState extends State<MenuScreen> {
                 leading: FaIcon(FontAwesomeIcons.clock),
                 title: Text('เวลา'),
                 onTap: () {},
+              ),
+              ListTile(
+                leading: FaIcon(FontAwesomeIcons.question),
+                title: Text('แบบสอบถามเกี่ยวกับโรคซึมเศร้า'),
+                onTap: () async {
+                  final url = 'https://forms.gle/9c6XkmxkKwVSth16A';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  }
+                },
               ),
               ListTile(
                   leading: FaIcon(FontAwesomeIcons.fileExport),

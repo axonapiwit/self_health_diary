@@ -118,8 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                     '${(diary.dateTime.day)} ${getWeekday(diary.dateTime.weekday)} ${getMonth(diary.dateTime.month)}',
@@ -139,7 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   MainAxisAlignment.center,
                                               mainAxisSize: MainAxisSize.min,
                                               children: <Widget>[
-                                                Text('${(diary.dateTime.day)} ${getWeekday(diary.dateTime.weekday)} ${getMonth(diary.dateTime.month)}',
+                                                Text(
+                                                    '${(diary.dateTime.day)} ${getWeekday(diary.dateTime.weekday)} ${getMonth(diary.dateTime.month)}',
                                                     style: TextStyle(
                                                         fontSize: 24)),
                                                 TextButton(
@@ -158,8 +158,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         Text(
                                                           'แก้ไขไดอารี่',
                                                           style: TextStyle(
-                                                              color: Colors
-                                                                  .black,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 24),
                                                         ),
                                                       ],
@@ -176,7 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       mood: diary
                                                                           .mood,
                                                                       moodScore:
-                                                                          diary.moodScore,
+                                                                          diary
+                                                                              .moodScore,
                                                                       sleep: diary
                                                                           .sleep,
                                                                       food: diary
@@ -184,7 +185,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       water: diary
                                                                           .water,
                                                                       exercise:
-                                                                          diary.exercise,
+                                                                          diary
+                                                                              .exercise,
                                                                       note: diary
                                                                           .note,
                                                                     )),
@@ -193,8 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 TextButton(
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       FaIcon(
                                                           FontAwesomeIcons
@@ -204,8 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       Text(
                                                         'ปิด',
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.black,
+                                                            color: Colors.black,
                                                             fontSize: 24),
                                                       ),
                                                     ],
@@ -224,16 +224,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Column(
                                   children: [
                                     Image.asset(
                                       '${moods.where((item) {
-                                        return item["index"] ==
-                                            diary.moodScore;
+                                        return item["index"] == diary.moodScore;
                                       }).toList()[0]["imgName"]}',
                                       height: 60,
                                     ),
