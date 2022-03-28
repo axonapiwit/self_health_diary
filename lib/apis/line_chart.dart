@@ -22,9 +22,47 @@ class _LineChartOneState extends State<LineChartOne> {
         .collection('diaries')
         .where('createdBy', isEqualTo: user!.uid)
         .orderBy('dateTime')
+        // .limitToLast(7)
         .get()
         .then((value) {
       allData = value.docs.map((doc) => doc.data()).toList();
+      // print(allData.length);
+      var now = DateTime.now();
+      // final Map<int, int> dayMap = {};
+      // for (int i = 0; i < 7; i++) {
+      //   final currentDay = now.subtract(Duration(days: i));
+      //   print(currentDay);
+      //   // final dataDay = allData.firstWhere((element) => false)
+      //   allData.forEach((element) {
+      //     final elementDate = (element['dateTime'].toDate() as DateTime);
+      //     final difDay = (DateTime(
+      //             elementDate.year, elementDate.month, elementDate.day))
+      //         .difference(
+      //             DateTime(currentDay.year, currentDay.month, currentDay.day));
+      //     print(currentDay);
+      //     print(element['dateTime'].toDate());
+      //     print(difDay.inDays);
+      //     print('========');
+      //     if (difDay.inDays == 0) {
+      //       dayMap[7 - i] = (element['moodScore']) as int;
+      //     }
+      //   });
+      // }
+      // print(dayMap);
+      // double j = 0;
+      // for (double i = 0; i < 7; i++) {
+      //   print(dayMap[i]);
+      //   if (dayMap[i] != null) {
+      //     spot.add(FlSpot(j, dayMap[i]!.toDouble()));
+      //     j += 2.0;
+      //   } else {
+      //     spot.add(FlSpot(j, 0.0));
+      //     j += 2.0;
+      //   }
+      // };
+
+      //---------------------------
+
       var subList;
 
       if (allData.length > 7) {
@@ -35,10 +73,33 @@ class _LineChartOneState extends State<LineChartOne> {
       subList.map((e) => moodScore.add(e['moodScore']));
 
       double i = 0;
+      bool isTodayAdd = false;
       subList.forEach((element) {
-        spot.add(FlSpot(i, (element['moodScore'] as int).toDouble()));
-        i += 2.0;
+        final elementDate = (element['dateTime'].toDate() as DateTime);
+        final difDay =
+            (DateTime(elementDate.year, elementDate.month, elementDate.day))
+                .difference(DateTime(now.year, now.month, now.day));
+        if (difDay.inDays == 0) {
+          isTodayAdd = true;
+        }
+        // spot.add(FlSpot(i, (element['moodScore'] as int).toDouble()));
+        // i += 2.0;
       });
+      // print(isTodayAdd);
+      if (isTodayAdd) {
+        subList.forEach((element) {
+          spot.add(FlSpot(i, (element['moodScore'] as int).toDouble()));
+          i += 2.0;
+        });
+      } else {
+        double j = 0.0;
+        subList = subList.skip(1).toList();
+        // print(subList.length);
+        for (int i = 0; i < 6; i++) {
+          spot.add(FlSpot(j, (subList[i]['moodScore'] as int).toDouble()));
+          j += 2.0;
+        }
+      }
 
       setState(() {});
     });

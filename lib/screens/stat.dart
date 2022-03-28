@@ -256,17 +256,21 @@ class _StatScreenState extends State<StatScreen> {
                       child: Column(
                     children: <Widget>[
                       Text(
-                        'เกณฑ์วัดอารมณ์',
+                        'เกณฑ์วัดความเครียดสะสม',
                         style: TextStyle(fontSize: 20),
                       ),
-                      barChartDescript("assets/icons/9.png",
-                          "28 - 35 คะแนน มีความเครียดสูง คุณควรระมัดระวังตัวและควรไปพบแพทย์โดยด่วน"),
-                      SizedBox(height: 10),
-                      barChartDescript("assets/icons/8.png",
-                          "21 - 27 คะแนน สงสัยว่ามีความเครียด คุณควรเริ่มประเมินแบบสอบถาม"),
+                      barChartDescript(
+                          "assets/icons/9.png",
+                          "28 - 35 คะแนน มีความเครียดสูง",
+                          "ควรเริ่มประเมินแบบสอบถามและควรไปปรึกษาแพทย์"),
                       SizedBox(height: 10),
                       barChartDescript(
-                          "assets/icons/7.png", "1 - 20 คะแนน ไม่มีความเครียด"),
+                          "assets/icons/8.png",
+                          "21 - 27 คะแนน สงสัยว่ามีความเครียด",
+                          "ควรระมัดระวังเรื่องความเครียด"),
+                      SizedBox(height: 10),
+                      barChartDescript("assets/icons/7.png",
+                          "1 - 20 คะแนน ไม่มีความเครียด", ""),
                     ],
                   )),
                   SizedBox(height: 25),
@@ -291,7 +295,7 @@ class _StatScreenState extends State<StatScreen> {
     );
   }
 
-  Widget barChartDescript(String img, String data) {
+  Widget barChartDescript(String img, String data, String descript) {
     return Container(
       padding: EdgeInsets.all(10),
       child: Row(
@@ -301,11 +305,19 @@ class _StatScreenState extends State<StatScreen> {
             height: 35,
           ),
           SizedBox(width: 20),
-          Flexible(
-            child: Text(
-              data,
-              style: TextStyle(fontSize: 16),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                data,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                descript,
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
           )
         ],
       ),
